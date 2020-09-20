@@ -4,18 +4,61 @@
 	<title>WebGL - Canvas test</title>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 
-	<script type="text/javascript" src="glMatrix.js"></script>
-	<script type="text/javascript" src="callbacks.js"></script>
-	<script type="text/javascript" src="glCourseBasis.js"></script>
-	<script type="text/javascript" src="objLoader.js"></script>
+	<link rel="stylesheet" href="style.css">
+
 
 </head>
 
 
 <body onload="webGLStart();">
-	<canvas id="WebGL-test" style="border:none;" width="800" height="600"></canvas>
-	<br><br>
+<canvas id="WebGL-test" style="border:none;" width="800" height="600"></canvas>
+<div id="parametresCT">
+	<h2>Paramètres</h2>
+
+	<p>Kd : <span id="kdSpan"></span></p>
+	<input type="range" min="0" max="100" value="50" class="slider" id="kdSlider">
+
+	<p>Ks : <span id="ksSpan"></span></p>
+	<input type="range" min="0" max="100" value="50" class="slider" id="ksSlider">
+
+	<p>Ni : <span id="niSpan"></span></p>
+	<input type="range" min="0" max="100" value="50" class="slider" id="niSlider">
+
+	<p>M : <span id="mSpan"></span></p>
+	<input type="range" min="0" max="100" value="50" class="slider" id="mSlider">
+
+	<p>Light color :</p>
+	<input type="button" id="redBox"/>
+	<input type="button" id="yellowBox"/>
+	<input type="button" id="orangeBox"/>
+	<input type="button" id="greenBox"/>
+	<input type="button" id="blueBox"/>
+	<input type="button" id="pinkBox"/>
+	<input type="button" id="purpleBox"/>
+
+	<p>Material :</p>
+<!--	<input type="radio" id="bunny" name="material" value="Bunny">-->
+<!--	<label for="bunny">Bunny</label><br>-->
+<!--	<input type="radio" id="dragon" name="material" value="Dragon">-->
+<!--	<label for="dragon">Dragon</label><br>-->
+<!--	<input type="radio" id="teapot" name="material" value="Teapot">-->
+<!--	<label for="teapot">Teapot</label>-->
+
+	<p>Object :</p>
+	<input type="radio" id="bunny" name="object" value="Bunny">
+	<label for="bunny">Bunny</label><br>
+	<input type="radio" id="dragon" name="object" value="Dragon">
+	<label for="dragon">Dragon</label><br>
+	<input type="radio" id="teapot" name="object" value="Teapot">
+	<label for="teapot">Teapot</label>
+</div>
+<br><br>
 </body>
 
+<script type="text/javascript" src="varParams.js"></script>
+<script type="text/javascript" src="glMatrix.js"></script>
+<script type="text/javascript" src="callbacks.js"></script>
+<script type="text/javascript" src="glCourseBasis.js"></script>
+<script type="text/javascript" src="objLoader.js"></script>
 
 </html>
