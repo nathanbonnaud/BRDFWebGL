@@ -4,7 +4,7 @@
 	<title>WebGL - Canvas test</title>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="style/style.css">
 
 
 </head>
@@ -13,7 +13,7 @@
 <body onload="webGLStart();">
 <canvas id="WebGL-test" style="border:none;" width="800" height="600"></canvas>
 <div id="parametresCT">
-	<h2>Paramètres</h2>
+	<h2>Parameters</h2>
 
 	<p>Kd : <span id="kdSpan"></span></p>
 	<input type="range" min="0" max="100" value="50" class="slider" id="kdSlider">
@@ -27,7 +27,7 @@
 	<p>M : <span id="mSpan"></span></p>
 	<input type="range" min="0" max="100" value="50" class="slider" id="mSlider">
 
-	<p>Light color : <span id="lightColorSpan">white</span></p>
+	<p>Emitted Color : <span id="lightColorSpan">white</span></p>
 	<input type="button" id="whiteBox"/>
 	<input type="button" id="redBox"/>
 	<input type="button" id="yellowBox"/>
@@ -56,10 +56,10 @@
 <br><br>
 </body>
 
-<script type="text/javascript" src="glMatrix.js"></script>
-<script type="text/javascript" src="varParams.js"></script>
-<script type="text/javascript" src="callbacks.js"></script>
-<script type="text/javascript" src="glCourseBasis.js"></script>
-<script type="text/javascript" src="objLoader.js"></script>
+<script type="text/javascript" src="scripts/glMatrix.js"></script>
+<script type="text/javascript" src="scripts/varParams.js"></script>
+<script type="text/javascript" src="scripts/callbacks.js"></script>
+<script type="text/javascript" src="scripts/glCourseBasis.js"></script>
+<script type="text/javascript" src="scripts/objLoader.js"></script>
 
 </html>
