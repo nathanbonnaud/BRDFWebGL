@@ -27,7 +27,8 @@
 	<p>M : <span id="mSpan"></span></p>
 	<input type="range" min="0" max="100" value="50" class="slider" id="mSlider">
 
-	<p>Light color :</p>
+	<p>Light color : <span id="lightColorSpan">white</span></p>
+	<input type="button" id="whiteBox"/>
 	<input type="button" id="redBox"/>
 	<input type="button" id="yellowBox"/>
 	<input type="button" id="orangeBox"/>
@@ -45,7 +46,7 @@
 <!--	<label for="teapot">Teapot</label>-->
 
 	<p>Object :</p>
-	<input type="radio" id="bunny" name="object" value="Bunny">
+	<input type="radio" id="bunny" name="object" value="Bunny" checked>
 	<label for="bunny">Bunny</label><br>
 	<input type="radio" id="dragon" name="object" value="Dragon">
 	<label for="dragon">Dragon</label><br>
@@ -55,8 +56,8 @@
 <br><br>
 </body>
 
-<script type="text/javascript" src="varParams.js"></script>
 <script type="text/javascript" src="glMatrix.js"></script>
+<script type="text/javascript" src="varParams.js"></script>
 <script type="text/javascript" src="callbacks.js"></script>
 <script type="text/javascript" src="glCourseBasis.js"></script>
 <script type="text/javascript" src="objLoader.js"></script>

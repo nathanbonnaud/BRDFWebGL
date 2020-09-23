@@ -26,7 +26,9 @@ class objmesh {
 		this.loaded = -1;
 		this.shader = null;
 		this.mesh = null;
-		
+
+		// this.initParams();
+
 		loadObjFile(this);
 		loadShaders(this);
 	}
@@ -45,11 +47,26 @@ class objmesh {
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.normalBuffer);
 		gl.vertexAttribPointer(this.shader.nAttrib, this.mesh.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
+		this.shader.lightColorAttrib = gl.getUniformLocation(this.shader, "uLightColor");
+		this.shader.kd = gl.getUniformLocation(this.shader, "uKd");
+		this.shader.ks = gl.getUniformLocation(this.shader, "uKs");
+		this.shader.ni = gl.getUniformLocation(this.shader, "uNi");
+		this.shader.m = gl.getUniformLocation(this.shader, "uM");
+
 		this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "uRMatrix");
 		this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
 		this.shader.pMatrixUniform = gl.getUniformLocation(this.shader, "uPMatrix");
 	}
-	
+
+	// --------------------------------------------
+	setParams(){
+		gl.uniform3fv(this.shader.lightColorAttrib, lightColor);
+		gl.uniform1f(this.shader.kd, kdValue);
+		gl.uniform1f(this.shader.ks, ksValue);
+		gl.uniform1f(this.shader.ni, niValue);
+		gl.uniform1f(this.shader.m, mValue);
+	}
+
 	// --------------------------------------------
 	setMatrixUniforms() {
 		mat4.identity(mvMatrix);
@@ -65,6 +82,7 @@ class objmesh {
 		if(this.shader && this.loaded==4 && this.mesh != null) {
 			this.setShadersParams();
 			this.setMatrixUniforms();
+			this.setParams();
 			gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.mesh.indexBuffer);
 			gl.drawElements(gl.TRIANGLES, this.mesh.indexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
 		}

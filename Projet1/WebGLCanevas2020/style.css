@@ -14,13 +14,16 @@ canvas{
 }
 
 #redBox{
+    background-color: #ffffff;
+}
+#redBox{
     background-color: red;
 }
 #yellowBox{
-    background-color: yellow;
+    background-color: #ffff00;
 }
 #orangeBox{
-    background-color: orange;
+    background-color: #ffa500;
 }
 #greenBox{
     background-color: green;
@@ -29,8 +32,8 @@ canvas{
     background-color: blue;
 }
 #pinkBox{
-    background-color: hotpink;
+    background-color: #ff69b4;
 }
 #purpleBox{
-    background-color: rebeccapurple;
+    background-color: #663399;
 }
