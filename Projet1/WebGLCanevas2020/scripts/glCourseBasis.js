@@ -8,6 +8,9 @@ var pMatrix = mat4.create();
 var rotMatrix = mat4.create();
 var distCENTER;
 // =====================================================
+var selected_obj = document.getElementById("bunny");
+var selected_obj2 = document.getElementById("dragon");
+var selected_obj3 = document.getElementById("teapot");
 
 var OBJ1 = null;
 var PLANE = null;
@@ -47,11 +50,10 @@ class objmesh {
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.normalBuffer);
 		gl.vertexAttribPointer(this.shader.nAttrib, this.mesh.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-		this.shader.lightColorAttrib = gl.getUniformLocation(this.shader, "uLightColor");
-		this.shader.kd = gl.getUniformLocation(this.shader, "uKd");
-		this.shader.ks = gl.getUniformLocation(this.shader, "uKs");
-		this.shader.ni = gl.getUniformLocation(this.shader, "uNi");
-		this.shader.m = gl.getUniformLocation(this.shader, "uM");
+		this.shader.lightValue = gl.getUniformLocation(this.shader,"uLightValue");
+		this.shader.objColor = gl.getUniformLocation(this.shader,"uObjColor");
+		this.shader.posLight = gl.getUniformLocation(this.shader,"uPosLight");
+
 
 		this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "uRMatrix");
 		this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
@@ -60,11 +62,9 @@ class objmesh {
 
 	// --------------------------------------------
 	setParams(){
-		gl.uniform3fv(this.shader.lightColorAttrib, lightColor);
-		gl.uniform1f(this.shader.kd, kdValue);
-		gl.uniform1f(this.shader.ks, ksValue);
-		gl.uniform1f(this.shader.ni, niValue);
-		gl.uniform1f(this.shader.m, mValue);
+		gl.uniform3fv(this.shader.lightValue, [3,3,3]);
+		gl.uniform3fv(this.shader.objColor, [0,1,0]);
+		gl.uniform3fv(this.shader.posLight, [0,2,0]);
 	}
 
 	// --------------------------------------------
@@ -89,97 +89,6 @@ class objmesh {
 	}
 
 }
-
-
-
-// =====================================================
-// PLAN 3D, Support géométrique
-// =====================================================
-
-class plane {
-
-	// --------------------------------------------
-	constructor() {
-		this.shaderName='plane';
-		this.loaded=-1;
-		this.shader=null;
-		this.initAll();
-	}
-
-	// --------------------------------------------
-	initAll() {
-		var size=1.0;
-		var vertices = [
-			-size, -size, 0.0,
-			 size, -size, 0.0,
-			 size, size, 0.0,
-			-size, size, 0.0
-		];
-
-		var texcoords = [
-			0.0,0.0,
-			0.0,1.0,
-			1.0,1.0,
-			1.0,0.0
-		];
-
-		this.vBuffer = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.vBuffer);
-		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-		this.vBuffer.itemSize = 3;
-		this.vBuffer.numItems = 4;
-
-		this.tBuffer = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.tBuffer);
-		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texcoords), gl.STATIC_DRAW);
-		this.tBuffer.itemSize = 2;
-		this.tBuffer.numItems = 4;
-
-		loadShaders(this);
-	}
-
-
-	// --------------------------------------------
-	setShadersParams() {
-		gl.useProgram(this.shader);
-
-		this.shader.vAttrib = gl.getAttribLocation(this.shader, "aVertexPosition");
-		gl.enableVertexAttribArray(this.shader.vAttrib);
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.vBuffer);
-		gl.vertexAttribPointer(this.shader.vAttrib, this.vBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-		this.shader.tAttrib = gl.getAttribLocation(this.shader, "aTexCoords");
-		gl.enableVertexAttribArray(this.shader.tAttrib);
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.tBuffer);
-		gl.vertexAttribPointer(this.shader.tAttrib,this.tBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-		this.shader.pMatrixUniform = gl.getUniformLocation(this.shader, "uPMatrix");
-		this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
-	}
-
-
-	// --------------------------------------------
-	setMatrixUniforms() {
-			mat4.identity(mvMatrix);
-			mat4.translate(mvMatrix, distCENTER);
-			mat4.multiply(mvMatrix, rotMatrix);
-			gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, pMatrix);
-			gl.uniformMatrix4fv(this.shader.mvMatrixUniform, false, mvMatrix);
-	}
-
-	// --------------------------------------------
-	draw() {
-		if(this.shader && this.loaded==4) {
-			this.setShadersParams();
-			this.setMatrixUniforms(this);
-
-			gl.drawArrays(gl.TRIANGLE_FAN, 0, this.vBuffer.numItems);
-			gl.drawArrays(gl.LINE_LOOP, 0, this.vBuffer.numItems);
-		}
-	}
-
-}
-
 
 // =====================================================
 // FONCTIONS GENERALES, INITIALISATIONS
@@ -302,8 +211,6 @@ function webGLStart() {
 	mat4.rotate(rotMatrix, rotY, [0, 0, 1]);
 
 	distCENTER = vec3.create([0,-0.2,-3]);
-
-	PLANE = new plane();
 	OBJ1 = new objmesh('objects/bunny.obj');
 
 	tick();
@@ -313,6 +220,5 @@ function webGLStart() {
 function drawScene() {
 
 	gl.clear(gl.COLOR_BUFFER_BIT);
-	PLANE.draw();
 	OBJ1.draw();
 }
