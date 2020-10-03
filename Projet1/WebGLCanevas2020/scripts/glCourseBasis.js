@@ -8,12 +8,11 @@ var pMatrix = mat4.create();
 var rotMatrix = mat4.create();
 var distCENTER;
 // =====================================================
-var selected_obj = document.getElementById("bunny");
-var selected_obj2 = document.getElementById("dragon");
-var selected_obj3 = document.getElementById("teapot");
 
 var OBJ1 = null;
 var PLANE = null;
+
+var objectName = "bunny";
 
 
 // =====================================================
@@ -129,11 +128,26 @@ loadObjFile = function(OBJ3D)
 		}
 	}
 
-	xhttp.open("GET", "objects/bunny.obj", true);
+	xhttp.open("GET", "objects/"+objectName+".obj", true);
 	xhttp.send();
 }
 
+// =====================================================
 
+selectedBunny = function (){
+	objectName = "bunny";
+	loadObjFile(OBJ1);
+}
+
+selectedDragon = function (){
+	objectName = "dragon";
+	loadObjFile(OBJ1);
+}
+
+selectedTeapot = function (){
+	objectName = "teapot";
+	loadObjFile(OBJ1);
+}
 
 // =====================================================
 function loadShaders(Obj3D) {
@@ -143,24 +157,23 @@ function loadShaders(Obj3D) {
 
 // =====================================================
 function loadShaderText(Obj3D,ext) {   // lecture asynchrone...
-  var xhttp = new XMLHttpRequest();
+	var xhttp = new XMLHttpRequest();
 
-  xhttp.onreadystatechange = function() {
-	if (xhttp.readyState == 4 && xhttp.status == 200) {
-		if(ext=='.vs') { Obj3D.vsTxt = xhttp.responseText; Obj3D.loaded ++; }
-		if(ext=='.fs') { Obj3D.fsTxt = xhttp.responseText; Obj3D.loaded ++; }
-		if(Obj3D.loaded==2) {
-			Obj3D.loaded ++;
-			compileShaders(Obj3D);
-			Obj3D.loaded ++;
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			if(ext=='.vs') { Obj3D.vsTxt = xhttp.responseText; Obj3D.loaded ++; }
+			if(ext=='.fs') { Obj3D.fsTxt = xhttp.responseText; Obj3D.loaded ++; }
+			if(Obj3D.loaded==2) {
+				Obj3D.loaded ++;
+				compileShaders(Obj3D);
+				Obj3D.loaded ++;
+			}
 		}
 	}
-  }
 
-  Obj3D.loaded = 0;
-  //xhttp.open("GET", '../shaders/'+Obj3D.shaderName+ext, true);
-  xhttp.open("GET", 'shaders/'+ Obj3D.shaderName+ext, true);
-  xhttp.send();
+	Obj3D.loaded = 0;
+	xhttp.open("GET", 'shaders/'+ Obj3D.shaderName+ext, true);
+	xhttp.send();
 }
 
 // =====================================================
@@ -211,14 +224,14 @@ function webGLStart() {
 	mat4.rotate(rotMatrix, rotY, [0, 0, 1]);
 
 	distCENTER = vec3.create([0,-0.2,-3]);
-	OBJ1 = new objmesh('objects/bunny.obj');
+	OBJ1 = new objmesh('objects/'+objectName+'.obj');
 
 	tick();
 }
 
 // =====================================================
 function drawScene() {
-
 	gl.clear(gl.COLOR_BUFFER_BIT);
 	OBJ1.draw();
 }
+

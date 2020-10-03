@@ -85,3 +85,4 @@ document.getElementById("purpleBox").onclick = function (){
     lightColorSpan.innerHTML="purple";
     lightColor.set([0.5, 0.2, 0.7]);
 }
+
