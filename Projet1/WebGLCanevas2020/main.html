@@ -14,10 +14,14 @@
 <canvas id="WebGL-test" style="border:none;" width="800" height="600"></canvas>
 <div id="parametresCT">
 	<h2>Parameters</h2>
-
-	<p>Kd : <span id="kdSpan"></span></p>
+	<h3>Light :</h3>
+	<p> Intensity: <span id="intensity"></span></p>
 	<input type="range" min="0" max="100" value="50" class="slider" id="kdSlider">
 
+	<h3> Object :</h3>
+	<p> Color: <span id="colorObj"></span></p>
+
+	<!--
 	<p>Ks : <span id="ksSpan"></span></p>
 	<input type="range" min="0" max="100" value="50" class="slider" id="ksSlider">
 
@@ -25,7 +29,7 @@
 	<input type="range" min="0" max="100" value="50" class="slider" id="niSlider">
 
 	<p>M : <span id="mSpan"></span></p>
-	<input type="range" min="0" max="100" value="50" class="slider" id="mSlider">
+	<input type="range" min="0" max="100" value="50" class="slider" id="mSlider"> -->
 
 	<p>Emitted Color : <span id="lightColorSpan">white</span></p>
 	<input type="button" id="whiteBox"/>
@@ -55,6 +59,7 @@
 </div>
 <br><br>
 </body>
+
 
 <script type="text/javascript" src="scripts/glMatrix.js"></script>
 <script type="text/javascript" src="scripts/varParams.js"></script>

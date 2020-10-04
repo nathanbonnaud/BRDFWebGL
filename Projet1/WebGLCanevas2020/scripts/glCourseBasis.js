@@ -30,8 +30,6 @@ class objmesh {
 		this.shader = null;
 		this.mesh = null;
 
-		// this.initParams();
-
 		loadObjFile(this);
 		loadShaders(this);
 	}
@@ -50,10 +48,9 @@ class objmesh {
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.normalBuffer);
 		gl.vertexAttribPointer(this.shader.nAttrib, this.mesh.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-		this.shader.lightValue = gl.getUniformLocation(this.shader,"uLightValue");
+		this.shader.lightPower = gl.getUniformLocation(this.shader,"uLightPower");
 		this.shader.objColor = gl.getUniformLocation(this.shader,"uObjColor");
-		this.shader.posLight = gl.getUniformLocation(this.shader,"uPosLight");
-
+		this.shader.posLight = gl.getUniformLocation(this.shader,"uLightPos");
 
 		this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "uRMatrix");
 		this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
@@ -61,28 +58,25 @@ class objmesh {
 	}
 
 	// --------------------------------------------
-	setParams(){
-		gl.uniform3fv(this.shader.lightValue, [3,3,3]);
-		gl.uniform3fv(this.shader.objColor, [0,1,0]);
-		gl.uniform3fv(this.shader.posLight, [0,2,0]);
-	}
-
-	// --------------------------------------------
-	setMatrixUniforms() {
+	setParamsUniforms(){
 		mat4.identity(mvMatrix);
 		mat4.translate(mvMatrix, distCENTER);
 		mat4.multiply(mvMatrix, rotMatrix);
+
 		gl.uniformMatrix4fv(this.shader.rMatrixUniform, false, rotMatrix);
 		gl.uniformMatrix4fv(this.shader.mvMatrixUniform, false, mvMatrix);
 		gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, pMatrix);
+
+		gl.uniform3fv(this.shader.lightPower, [kdValue,kdValue,kdValue]);
+		gl.uniform3fv(this.shader.objColor, [0,1,0]);
+		gl.uniform3fv(this.shader.posLight, [0,5,0]);
 	}
 
 	// --------------------------------------------
 	draw() {
 		if(this.shader && this.loaded==4 && this.mesh != null) {
 			this.setShadersParams();
-			this.setMatrixUniforms();
-			this.setParams();
+			this.setParamsUniforms();
 			gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.mesh.indexBuffer);
 			gl.drawElements(gl.TRIANGLES, this.mesh.indexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
 		}
