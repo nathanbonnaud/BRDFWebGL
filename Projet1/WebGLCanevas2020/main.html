@@ -4,62 +4,50 @@
 	<title>WebGL - Canvas test</title>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 
+	<!-- librairie 'farbastic' utilisé pour le color picker -->
+	<script type="text/javascript" src="lib/farbtastic12/farbtastic/node_modules/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="lib/farbtastic12/farbtastic/farbtastic.js"></script>
+	<link rel="stylesheet" href="lib/farbtastic12/farbtastic/farbtastic.css" type="text/css">
+	<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$('#picker').farbtastic('#color');
+	});
+	</script>
+	<!------------------------------------------------------->
+
 	<link rel="stylesheet" href="style/style.css">
-
-
 </head>
-
 
 <body onload="webGLStart();">
 <canvas id="WebGL-test" style="border:none;" width="800" height="600"></canvas>
 <div id="parametresCT">
 	<h2>Parameters</h2>
-	<h3>Light :</h3>
-	<p> Intensity: <span id="intensity"></span></p>
-	<input type="range" min="0" max="100" value="50" class="slider" id="kdSlider">
 
-	<h3> Object :</h3>
-	<p> Color: <span id="colorObj"></span></p>
+	<div id="light">
+		<h3>Light :</h3>
+		<p> Intensity: <span id="intensity"></span></p>
+		<input type="range" min="0" max="100" value="50" class="slider" id="kdSlider">
+	</div>
 
-	<!--
-	<p>Ks : <span id="ksSpan"></span></p>
-	<input type="range" min="0" max="100" value="50" class="slider" id="ksSlider">
+	<div id="object">
+		<h3> Object :</h3>
+		<p> Color: <span id="colorObj"></span></p>
+		<div class="form-item"><input type="text" id="color" name="color" value="#123456" /></div><div id="picker"></div>
+	</div>
 
-	<p>Ni : <span id="niSpan"></span></p>
-	<input type="range" min="0" max="100" value="50" class="slider" id="niSlider">
+	<div id= "selectedObj">
+		<h3 >Select An Object :</h3>
+		<input type="radio" id="bunny" name="object" value="Bunny" checked onclick="selectedBunny()">
+		<label for="bunny">Bunny</label><br>
+		<input type="radio" id="dragon" name="object" value="Dragon" onclick="selectedDragon()">
+		<label for="dragon">Dragon</label><br>
+		<input type="radio" id="teapot" name="object" value="Teapot" onclick="selectedTeapot()">
+		<label for="teapot">Teapot</label>
+	</div>
 
-	<p>M : <span id="mSpan"></span></p>
-	<input type="range" min="0" max="100" value="50" class="slider" id="mSlider"> -->
-
-	<p>Emitted Color : <span id="lightColorSpan">white</span></p>
-	<input type="button" id="whiteBox"/>
-	<input type="button" id="redBox"/>
-	<input type="button" id="yellowBox"/>
-	<input type="button" id="orangeBox"/>
-	<input type="button" id="greenBox"/>
-	<input type="button" id="blueBox"/>
-	<input type="button" id="pinkBox"/>
-	<input type="button" id="purpleBox"/>
-
-	<p>Material :</p>
-<!--	<input type="radio" id="bunny" name="material" value="Bunny">-->
-<!--	<label for="bunny">Bunny</label><br>-->
-<!--	<input type="radio" id="dragon" name="material" value="Dragon">-->
-<!--	<label for="dragon">Dragon</label><br>-->
-<!--	<input type="radio" id="teapot" name="material" value="Teapot">-->
-<!--	<label for="teapot">Teapot</label>-->
-
-	<p>Object :</p>
-	<input type="radio" id="bunny" name="object" value="Bunny" checked onclick="selectedBunny()">
-	<label for="bunny">Bunny</label><br>
-	<input type="radio" id="dragon" name="object" value="Dragon" onclick="selectedDragon()">
-	<label for="dragon">Dragon</label><br>
-	<input type="radio" id="teapot" name="object" value="Teapot" onclick="selectedTeapot()">
-	<label for="teapot">Teapot</label>
 </div>
 <br><br>
 </body>
-
 
 <script type="text/javascript" src="scripts/glMatrix.js"></script>
 <script type="text/javascript" src="scripts/varParams.js"></script>

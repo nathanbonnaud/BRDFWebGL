@@ -1,6 +1,8 @@
+//Lumière
 /* slider "Intensity" gère l'intensité de la lumière */
 var kdSpan = document.getElementById("intensity");
 var kdSlider = document.getElementById("kdSlider");
+
 kdSlider.value = 50;
 kdValue = kdSlider.value/10;
 
@@ -9,38 +11,16 @@ kdSlider.oninput = function (){
     kdSpan.innerHTML = this.value/10;
 }
 
-var lightColorSpan = document.getElementById("lightColorSpan");
-var lightColor = vec3.create([1.0, 1.0, 1.0]);
+//Objets
+/* initialisation de la variable pour gèrer le color picker */
+var color = document.getElementById("color");
+color.hidden =true;
 
-document.getElementById("whiteBox").onclick = function (){
-    lightColorSpan.innerHTML="white";
-    lightColor.set([1.0, 1.0, 1.0]);
-}
-document.getElementById("redBox").onclick = function (){
-    lightColorSpan.innerHTML="red";
-    lightColor.set([1.0, 0.0, 0.0]);
-}
-document.getElementById("yellowBox").onclick = function (){
-    lightColorSpan.innerHTML="yellow";
-    lightColor.set([1.0, 1.0, 0.0]);
-}
-document.getElementById("orangeBox").onclick = function (){
-    lightColorSpan.innerHTML="orange";
-    lightColor.set([1.0, 0.5, 0.0]);
-}
-document.getElementById("greenBox").onclick = function (){
-    lightColorSpan.innerHTML="green";
-    lightColor.set([0.0, 1.0, 0.0]);
-}
-document.getElementById("blueBox").onclick = function (){
-    lightColorSpan.innerHTML="blue";
-    lightColor.set([0.0, 0.0, 1.0]);
-}
-document.getElementById("pinkBox").onclick = function (){
-    lightColorSpan.innerHTML="pink";
-    lightColor.set([1.0, 0.4, 0.6]);
-}
-document.getElementById("purpleBox").onclick = function (){
-    lightColorSpan.innerHTML="purple";
-    lightColor.set([0.5, 0.2, 0.7]);
+function updateColor()
+{
+  /* cette partie récupère la couleur du background en string et la convertie en int */
+	var val = color.style.backgroundColor.split('(')[1].split(')')[0].split(", ");
+	redObj = parseInt(val[0],10);
+	greenObj = parseInt(val[1],10);
+	blueObj = parseInt(val[2],10);
 }
