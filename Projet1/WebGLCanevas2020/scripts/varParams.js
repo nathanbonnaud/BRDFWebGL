@@ -11,16 +11,37 @@ kdSlider.oninput = function (){
     kdSpan.innerHTML = this.value/10;
 }
 
+//couleur de la lumière
+var colorLight = document.getElementById("color2");
+colorLight.hidden =true;
+
+function updateColorLight()
+{
+  /* cette partie récupère la couleur du background en string et la convertie en int */
+	var val = colorLight.style.backgroundColor.split('(')[1].split(')')[0].split(", ");
+	redLight = parseInt(val[0],10);
+	greenLight = parseInt(val[1],10);
+	blueLight = parseInt(val[2],10);
+}
+
 //Objets
 /* initialisation de la variable pour gèrer le color picker */
 var color = document.getElementById("color");
 color.hidden =true;
 
-function updateColor()
+function updateColorObj()
 {
   /* cette partie récupère la couleur du background en string et la convertie en int */
-	var val = color.style.backgroundColor.split('(')[1].split(')')[0].split(", ");
-	redObj = parseInt(val[0],10);
-	greenObj = parseInt(val[1],10);
-	blueObj = parseInt(val[2],10);
+	var val1 = color.style.backgroundColor.split('(')[1].split(')')[0].split(", ");
+	redObj = parseInt(val1[0],10);
+	greenObj = parseInt(val1[1],10);
+	blueObj = parseInt(val1[2],10);
+}
+
+moveLight = function() {
+	movelight = true;
+}
+
+moveObj = function() {
+	movelight = false;
 }

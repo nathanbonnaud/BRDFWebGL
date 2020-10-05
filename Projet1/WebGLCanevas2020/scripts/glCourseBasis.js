@@ -6,6 +6,11 @@ var gl;
 var mvMatrix = mat4.create();
 var pMatrix = mat4.create();
 var rotMatrix = mat4.create();
+
+var mvMatrix2 = mat4.create();
+var pMatrix2 = mat4.create();
+var rotMatrix2 = mat4.create();
+
 var distCENTER;
 // =====================================================
 
@@ -49,7 +54,9 @@ class objmesh {
 
 		this.shader.lightPower = gl.getUniformLocation(this.shader,"uLightPower");
 		this.shader.objColor = gl.getUniformLocation(this.shader,"uObjColor");
-		this.shader.posLight = gl.getUniformLocation(this.shader,"uLightPos");
+		this.shader.lightPos = gl.getUniformLocation(this.shader,"uLightPos");
+		this.shader.lightColor = gl.getUniformLocation(this.shader,"uLightColor");
+
 
 		this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "uRMatrix");
 		this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
@@ -68,7 +75,8 @@ class objmesh {
 
 		gl.uniform3fv(this.shader.lightPower, [kdValue,kdValue,kdValue]);
 		gl.uniform3fv(this.shader.objColor, [redObj/255,greenObj/255,blueObj/255]);
-		gl.uniform3fv(this.shader.posLight, [0,5,0]);
+		gl.uniform3fv(this.shader.lightColor, [redLight/255,greenLight/255,blueLight/255]);
+		gl.uniform3fv(this.shader.lightPos, [0,1,0]);
 	}
 
 	// --------------------------------------------
