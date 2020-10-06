@@ -2,6 +2,27 @@ canvas{
     display: inline-block;
 }
 
+#deplacementCamera,#deplacementLumiere{
+    background-color: whitesmoke;
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+    padding: 6px;
+    margin: 6px;
+    box-shadow: 3px 4px;
+}
+
+#deplacementCamera:hover,#deplacementLumiere:hover{
+    cursor: pointer;
+}
+
+#deplacementCamera{
+    background-color: yellow;
+    box-shadow: 1px 2px;
+}
+
+
+
 #parametresCT{
     display: inline-block;
 }

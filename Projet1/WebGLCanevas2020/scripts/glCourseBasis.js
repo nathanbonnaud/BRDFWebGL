@@ -7,6 +7,10 @@ var mvMatrix = mat4.create();
 var pMatrix = mat4.create();
 var rotMatrix = mat4.create();
 var distCENTER;
+
+var transMatrixLum = mat4.create();
+var vecTranslation = [0,0,0,1];
+
 // =====================================================
 
 var OBJ1 = null;
@@ -51,6 +55,8 @@ class objmesh {
 		this.shader.objColor = gl.getUniformLocation(this.shader,"uObjColor");
 		this.shader.posLight = gl.getUniformLocation(this.shader,"uLightPos");
 
+		// this.shader.mvMatrixLumiereUniform = gl.getUniformLocation(this.shader, "uMPosLum");
+
 		this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "uRMatrix");
 		this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
 		this.shader.pMatrixUniform = gl.getUniformLocation(this.shader, "uPMatrix");
@@ -66,9 +72,16 @@ class objmesh {
 		gl.uniformMatrix4fv(this.shader.mvMatrixUniform, false, mvMatrix);
 		gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, pMatrix);
 
+		// mat4.identity(mvMatrixLumiere);
+		// mat4.translate(mvMatrixLumiere, distCENTER);
+		// mat4.multiply(mvMatrixLumiere, transMatrixLum);
+		// gl.uniformMatrix4fv(this.shader.mvMatrixLumiereUniform, false, mvMatrixLumiere);
+
 		gl.uniform3fv(this.shader.lightPower, [kdValue,kdValue,kdValue]);
 		gl.uniform3fv(this.shader.objColor, [0,1,0]);
-		gl.uniform3fv(this.shader.posLight, [0,5,0]);
+
+		gl.uniform3fv(this.shader.posLight,
+			[vecTranslation[0],vecTranslation[1],vecTranslation[2]]);
 	}
 
 	// --------------------------------------------
@@ -213,9 +226,15 @@ function webGLStart() {
 	initGL(canvas);
 	mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
 
-	mat4.identity(rotMatrix);
-	mat4.rotate(rotMatrix, rotX, [1, 0, 0]);
-	mat4.rotate(rotMatrix, rotY, [0, 0, 1]);
+	if(controleCamera) {
+		mat4.identity(rotMatrix);
+		mat4.rotate(rotMatrix, rotXCamera, [1, 0, 0]);
+		mat4.rotate(rotMatrix, rotYCamera, [0, 0, 1]);
+	}else {
+		mat4.identity(rotMatrixLum);
+		mat4.rotate(rotMatrixLum, rotXLumiere, [1, 0, 0]);
+		mat4.rotate(rotMatrixLum, rotYLumiere, [0, 0, 1]);
+	}
 
 	distCENTER = vec3.create([0,-0.2,-3]);
 	OBJ1 = new objmesh('objects/'+objectName+'.obj');

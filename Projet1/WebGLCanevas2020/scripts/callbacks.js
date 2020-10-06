@@ -6,22 +6,25 @@
 var mouseDown = false;
 var lastMouseX = null;
 var lastMouseY = null;
-var rotY = 0;
-var rotX = -1;
+var rotYCamera = 0;
+var rotXCamera = -1;
+
+var transYLumiere = 0;
+var transXLumiere = 0;
 
 // =====================================================
 window.requestAnimFrame = (function()
 {
 	return window.requestAnimationFrame ||
-         window.webkitRequestAnimationFrame ||
-         window.mozRequestAnimationFrame ||
-         window.oRequestAnimationFrame ||
-         window.msRequestAnimationFrame ||
-         function(/* function FrameRequestCallback */ callback,
-									/* DOMElement Element */ element)
-         {
-            window.setTimeout(callback, 1000/60);
-         };
+		window.webkitRequestAnimationFrame ||
+		window.mozRequestAnimationFrame ||
+		window.oRequestAnimationFrame ||
+		window.msRequestAnimationFrame ||
+		function(/* function FrameRequestCallback */ callback,
+				 /* DOMElement Element */ element)
+		{
+			window.setTimeout(callback, 1000/60);
+		};
 })();
 
 // ==========================================
@@ -58,26 +61,39 @@ function handleMouseUp(event) {
 
 // =====================================================
 function handleMouseMove(event) {
-	
+
 	if (!mouseDown) return;
 
 	var newX = event.clientX;
-	var newY = event.clientY;	
+	var newY = event.clientY;
 	var deltaX = newX - lastMouseX;
 	var deltaY = newY - lastMouseY;
-	
+
 	if(event.shiftKey) {
 		distCENTER[2] += deltaY/100.0;
 	} else {
 
-		rotY += degToRad(deltaX / 5);
-		rotX += degToRad(deltaY / 5);
+		if(controleCamera){
+			rotYCamera += degToRad(deltaX / 5);
+			rotXCamera += degToRad(deltaY / 5);
 
-		mat4.identity(rotMatrix);
-		mat4.rotate(rotMatrix, rotX, [1, 0, 0]);
-		mat4.rotate(rotMatrix, rotY, [0, 0, 1]);
+			mat4.identity(rotMatrix);
+			mat4.rotate(rotMatrix, rotXCamera, [1, 0, 0]);
+			mat4.rotate(rotMatrix, rotYCamera, [0, 0, 1]);
+		}else{
+			transYLumiere -= deltaY;
+			transXLumiere += deltaX;
+
+			mat4.identity(transMatrixLum);
+
+			vecTranslation = [0, 0, 0, 1];
+			vecTranslation[0] = transXLumiere;
+			vecTranslation[1] = transYLumiere;
+
+			vecTranslation = mat4.multiplyVec4(transMatrixLum, vecTranslation);
+		}
 	}
-	
+
 	lastMouseX = newX
 	lastMouseY = newY;
 }

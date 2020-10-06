@@ -8,6 +8,8 @@ uniform vec3 uLightPos;
 varying vec4 pos3D;
 varying vec3 N;
 
+//varying vec4 posLum;
+
 const float M_PI = 3.145;
 //varying -> Kd, Ks, Ni, m, lightColor, Material
 
@@ -21,6 +23,7 @@ vec3 Lambert(vec3 Li, vec3 ObjColor, vec3 PosLight, vec3 Normal, vec4 Position)
 void main(void)
 {
 	vec3 col = Lambert(uLightPower,uObjColor,uLightPos,N,pos3D); // Lambert rendering, eye light source
+	//vec3 col = Lambert(uLightPower,uObjColor,vec3(posLum),N,pos3D); // Lambert rendering, eye light source
 
 	gl_FragColor = vec4(col,1.0);
 }

@@ -1,3 +1,31 @@
+/* boutons controle de la caméra ou de la lumière*/
+var controleCamera = true;
+var controleLumiere = false;
+var spanDeplacementCamera = document.getElementById("deplacementCamera");
+var spanDeplacementLumiere = document.getElementById("deplacementLumiere");
+
+//clique sur le span caméra
+spanDeplacementCamera.onclick = function (){
+    controleCamera = true;
+    controleLumiere = false;
+
+    spanDeplacementCamera.style.boxShadow = "1px 2px";
+    spanDeplacementCamera.style.backgroundColor = "yellow";
+    spanDeplacementLumiere.style.boxShadow = "3px 4px";
+    spanDeplacementLumiere.style.backgroundColor = "whitesmoke";
+}
+
+//clique sur le span lumière
+spanDeplacementLumiere.onclick = function (){
+    controleCamera = false;
+    controleLumiere = true;
+
+    spanDeplacementLumiere.style.boxShadow = "1px 2px";
+    spanDeplacementLumiere.style.backgroundColor = "yellow";
+    spanDeplacementCamera.style.boxShadow = "3px 4px";
+    spanDeplacementCamera.style.backgroundColor = "whitesmoke";
+}
+
 /* slider "Intensity" gère l'intensité de la lumière */
 var kdSpan = document.getElementById("intensity");
 var kdSlider = document.getElementById("kdSlider");
