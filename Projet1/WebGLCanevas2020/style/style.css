@@ -1,8 +1,10 @@
 canvas{
-  position : absolute;
-  left : 1vw;
-  top : 1vw;
-  display: inline-block;
+    position : absolute;
+    left : 1vw;
+    top : 1vw;
+    width: 43vw;
+    height: auto;
+    display: inline-block;
 }
 
 #deplacementCamera,#deplacementLumiere{
@@ -13,40 +15,50 @@ canvas{
     padding: 6px;
     margin: 6px;
     box-shadow: 3px 4px;
+    position: absolute;
+    top: 38vw;
 }
 
 #deplacementCamera:hover,#deplacementLumiere:hover{
     cursor: pointer;
 }
 
+#deplacementLumiere{
+    left : 10vw;
+    width : 5vw;
+}
 #deplacementCamera{
     background-color: yellow;
     box-shadow: 1px 2px;
 }
 
-
+#Souris{
+    position: absolute;
+    top : 35vw;
+    width: 20vw;
+}
 
 #parametresCT{
-  position : absolute;
-  left : 45vw;
-  display: inline-block;
+    position : absolute;
+    left : 45vw;
+    display: inline-block;
 }
 
 #object{
-  position: absolute;
-  top : 3.5vw;
-  left: 15vw;
-  display: inline-block;
+    position: absolute;
+    top : 3.5vw;
+    left: 15vw;
+    display: inline-block;
 }
 
 #light{
-  position: absolute;
-  top : 3.5vw;
-  display: inline-block;
+    position: absolute;
+    top : 3.5vw;
+    display: inline-block;
 }
 
 #selectedObj{
-  position: absolute;
-  top : 25vw;
-  display: inline-block;
+    position: absolute;
+    top : 25vw;
+    display: inline-block;
 }
