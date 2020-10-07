@@ -81,8 +81,8 @@ function handleMouseMove(event) {
 			mat4.rotate(rotMatrix, rotXCamera, [1, 0, 0]);
 			mat4.rotate(rotMatrix, rotYCamera, [0, 0, 1]);
 		}else{
-			transYLumiere -= deltaY;
-			transXLumiere += deltaX;
+			transYLumiere -= deltaY / 5;
+			transXLumiere += deltaX / 5;
 
 			mat4.identity(transMatrixLum);
 
