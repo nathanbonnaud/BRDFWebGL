@@ -26,9 +26,11 @@ spanDeplacementLumiere.onclick = function (){
     spanDeplacementCamera.style.backgroundColor = "whitesmoke";
 }
 
+//Lumière
 /* slider "Intensity" gère l'intensité de la lumière */
 var kdSpan = document.getElementById("intensity");
 var kdSlider = document.getElementById("kdSlider");
+
 kdSlider.value = 50;
 kdValue = kdSlider.value/10;
 
@@ -37,38 +39,37 @@ kdSlider.oninput = function (){
     kdSpan.innerHTML = this.value/10;
 }
 
-var lightColorSpan = document.getElementById("lightColorSpan");
-var lightColor = vec3.create([1.0, 1.0, 1.0]);
+//couleur de la lumière
+var colorLight = document.getElementById("color2");
+colorLight.hidden =true;
 
-document.getElementById("whiteBox").onclick = function (){
-    lightColorSpan.innerHTML="white";
-    lightColor.set([1.0, 1.0, 1.0]);
+function updateColorLight()
+{
+  /* cette partie récupère la couleur du background en string et la convertie en int */
+	var val = colorLight.style.backgroundColor.split('(')[1].split(')')[0].split(", ");
+	redLight = parseInt(val[0],10);
+	greenLight = parseInt(val[1],10);
+	blueLight = parseInt(val[2],10);
 }
-document.getElementById("redBox").onclick = function (){
-    lightColorSpan.innerHTML="red";
-    lightColor.set([1.0, 0.0, 0.0]);
+
+//Objets
+/* initialisation de la variable pour gèrer le color picker */
+var color = document.getElementById("color");
+color.hidden =true;
+
+function updateColorObj()
+{
+  /* cette partie récupère la couleur du background en string et la convertie en int */
+	var val1 = color.style.backgroundColor.split('(')[1].split(')')[0].split(", ");
+	redObj = parseInt(val1[0],10);
+	greenObj = parseInt(val1[1],10);
+	blueObj = parseInt(val1[2],10);
 }
-document.getElementById("yellowBox").onclick = function (){
-    lightColorSpan.innerHTML="yellow";
-    lightColor.set([1.0, 1.0, 0.0]);
+
+moveLight = function() {
+	movelight = true;
 }
-document.getElementById("orangeBox").onclick = function (){
-    lightColorSpan.innerHTML="orange";
-    lightColor.set([1.0, 0.5, 0.0]);
-}
-document.getElementById("greenBox").onclick = function (){
-    lightColorSpan.innerHTML="green";
-    lightColor.set([0.0, 1.0, 0.0]);
-}
-document.getElementById("blueBox").onclick = function (){
-    lightColorSpan.innerHTML="blue";
-    lightColor.set([0.0, 0.0, 1.0]);
-}
-document.getElementById("pinkBox").onclick = function (){
-    lightColorSpan.innerHTML="pink";
-    lightColor.set([1.0, 0.4, 0.6]);
-}
-document.getElementById("purpleBox").onclick = function (){
-    lightColorSpan.innerHTML="purple";
-    lightColor.set([0.5, 0.2, 0.7]);
+
+moveObj = function() {
+	movelight = false;
 }

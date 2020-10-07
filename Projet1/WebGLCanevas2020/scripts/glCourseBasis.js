@@ -53,9 +53,9 @@ class objmesh {
 
 		this.shader.lightPower = gl.getUniformLocation(this.shader,"uLightPower");
 		this.shader.objColor = gl.getUniformLocation(this.shader,"uObjColor");
-		this.shader.posLight = gl.getUniformLocation(this.shader,"uLightPos");
+		this.shader.lightPos = gl.getUniformLocation(this.shader,"uLightPos");
+		this.shader.lightColor = gl.getUniformLocation(this.shader,"uLightColor");
 
-		// this.shader.mvMatrixLumiereUniform = gl.getUniformLocation(this.shader, "uMPosLum");
 
 		this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "uRMatrix");
 		this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
@@ -72,15 +72,15 @@ class objmesh {
 		gl.uniformMatrix4fv(this.shader.mvMatrixUniform, false, mvMatrix);
 		gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, pMatrix);
 
-		// mat4.identity(mvMatrixLumiere);
-		// mat4.translate(mvMatrixLumiere, distCENTER);
-		// mat4.multiply(mvMatrixLumiere, transMatrixLum);
-		// gl.uniformMatrix4fv(this.shader.mvMatrixLumiereUniform, false, mvMatrixLumiere);
-
 		gl.uniform3fv(this.shader.lightPower, [kdValue,kdValue,kdValue]);
 		gl.uniform3fv(this.shader.objColor, [0,1,0]);
 
-		gl.uniform3fv(this.shader.posLight,
+		gl.uniform3fv(this.shader.lightPos,
+			[vecTranslation[0],vecTranslation[1],vecTranslation[2]]);
+		gl.uniform3fv(this.shader.objColor, [redObj/255,greenObj/255,blueObj/255]);
+		gl.uniform3fv(this.shader.lightColor, [redLight/255,greenLight/255,blueLight/255]);
+
+		gl.uniform3fv(this.shader.lightPos,
 			[vecTranslation[0],vecTranslation[1],vecTranslation[2]]);
 	}
 
@@ -247,4 +247,3 @@ function drawScene() {
 	gl.clear(gl.COLOR_BUFFER_BIT);
 	OBJ1.draw();
 }
-

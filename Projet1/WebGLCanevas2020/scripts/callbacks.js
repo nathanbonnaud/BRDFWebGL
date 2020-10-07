@@ -12,6 +12,13 @@ var rotXCamera = -1;
 var transYLumiere = 0;
 var transXLumiere = 0;
 
+var redObj =0;
+var greenObj =0;
+var blueObj =0;
+
+var redLight =0;
+var greenLight =0;
+var blueLight =0;
 // =====================================================
 window.requestAnimFrame = (function()
 {
@@ -31,6 +38,9 @@ window.requestAnimFrame = (function()
 function tick() {
 	requestAnimFrame(tick);
 	drawScene();
+
+	updateColorObj();
+	updateColorLight();
 }
 
 // =====================================================
