@@ -14,19 +14,20 @@ const float M_PI = 3.145;
 
 vec3 Phong(vec3 PosLight, vec3 LightColor, vec3 Normal, vec4 Position, vec3 ObjColor, vec3 LightPower)
 {
-    vec3 Ia = LightColor;
+  // couleur ambiante
+    vec3 Ia = vec3(1,1,1);
 
-    vec3 Cd = ObjColor;
-    vec3 Id = Cd * max(cos(dot(Normal, vec3(PosLight-vec3(Position)))), 0.);
+    vec3 Cd = (uLightPower*LightColor) * ObjColor/M_PI;
+    vec3 Id = Cd * max(dot(Normal, normalize(vec3(PosLight-vec3(Position)))), 0.);
 
-    vec3 Cs = vec3(1.0, 1.0, 1.0);
+    vec3 Cs = LightColor*uLightPower;
     float s = 100.0;
-    vec3 ReflectLum = reflect(vec3(PosLight-vec3(Position)), Normal);
-    vec3 Is = Cs * pow(max(cos(dot(Normal, vec3(PosLight-vec3(Position)))), 0.), s);
+    vec3 ReflectLum = reflect(normalize(vec3(PosLight-vec3(Position))), Normal);
+    vec3 Is = Cs * pow(max(dot(Normal, normalize(vec3(PosLight-vec3(Position)))), 0.), s);
 
-    float Ka = 0.3;
-    float Kd = 0.4;
-    float Ks = 0.3;
+    float Ka = 0.15;
+    float Kd = 0.6;
+    float Ks = 0.25;
 
     return Ka * Ia + Kd * Id + Ks * Is;
 }
