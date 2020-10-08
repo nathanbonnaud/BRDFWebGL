@@ -46,14 +46,14 @@ canvas{
 
 #object{
     position: absolute;
-    top : 3.5vw;
+    top : 2.0vw;
     left: 15vw;
     display: inline-block;
 }
 
 #light{
     position: absolute;
-    top : 3.5vw;
+    top : 2.0vw;
     display: inline-block;
 }
 
