@@ -8,9 +8,11 @@ uniform vec3 uObjColor;
 
 uniform float uKd;
 uniform float uKs;
+uniform float uM;
+uniform float uN;
 
-//uniform bool uTorranceOn;
-bool Torrance = true;
+uniform int uTorranceOn;
+//bool Torrance = true;
 
 varying vec4 pos3D;
 varying vec3 N;
@@ -31,7 +33,7 @@ vec3 Phong(vec3 LightPos, vec3 LightColor, vec3 LightPower, vec3 ObjColor, vec3 
     vec3 Reflect = reflect(normalize(vec3(vec3(Position)-LightPos)), Normal);
     vec3 Is = (LightColor*LightPower) * pow(max(dot(Reflect, normalize(-vec3(Position))), 0.), 100.0);
 
-    return 0.75 * Id + 0.25 * Is;
+    return uKd * Id + uKs * Is;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,10 +59,9 @@ float Ombrage(vec3 Normal, vec3 MicrofacetDir, vec3 LightDir, vec3 CameraDir)
 
 float Beckmann(vec3 Normal, vec3 MicrofacetDir)
 {
-  float rugosity = 0.1;
   float theta = acos(dot(Normal,MicrofacetDir));
-  float powValue = exp(-pow(theta,2.0)/(2.0*pow(rugosity,2.0)));
-  float divi = M_PI*pow(rugosity,2.0)*pow(cos(theta),4.0);
+  float powValue = exp(-pow(theta,2.0)/(2.0*pow(uM,2.0)));
+  float divi = M_PI*pow(uM,2.0)*pow(cos(theta),4.0);
   return powValue/divi;
 }
 
@@ -72,7 +73,7 @@ float CookTorrance(vec3 LightPos, vec3 ObjColor, vec3 Normal, vec4 Position)
   vec3 VectorMicrofacet = normalize((VectorLight + VectorCamera)/2.0);
 
 
-  return (Fresnel(VectorLight,VectorMicrofacet,1.5)*Ombrage(Normal,VectorMicrofacet,VectorLight,VectorCamera)*Beckmann(Normal,VectorMicrofacet))
+  return (Fresnel(VectorLight,VectorMicrofacet,uN)*Ombrage(Normal,VectorMicrofacet,VectorLight,VectorCamera)*Beckmann(Normal,VectorMicrofacet))
                 /(4.0*abs(dot(VectorLight,Normal))*abs(dot(VectorCamera,Normal)));
 }
 
@@ -83,7 +84,8 @@ vec3 Brdf(vec3 LightPos, vec3 LightColor, vec3 LightPower, vec3 ObjColor, vec3 N
   float  specular = cookTorrance * clamp(dot(N,normalize(vec3(LightPos-vec3(pos3D)))),0.0,1.0);
   vec3 diffuse = Lambert(LightPower, LightPos, LightColor, ObjColor, N, pos3D);
 
-  return 0.1*specular* (LightPower*LightColor) + 0.9*diffuse;
+  return uKs*specular* (LightPower*LightColor) + uKd*diffuse;
+  //return 0.1*specular* (LightPower*LightColor) + 0.9*diffuse;
 }
 
 
@@ -92,7 +94,7 @@ vec3 Brdf(vec3 LightPos, vec3 LightColor, vec3 LightPower, vec3 ObjColor, vec3 N
 // Fonction principale du fragement shader, il renvoit la couleur final de chaque fragment.
 void main(void)
 {
-  vec3 col = (Torrance) ? Brdf(uLightPos, uLightColor, uLightPower, uObjColor, N, pos3D)
+  vec3 col = (uTorranceOn == 1) ? Brdf(uLightPos, uLightColor, uLightPower, uObjColor, N, pos3D)
                         : Phong(uLightPos, uLightColor, uLightPower, uObjColor, N, pos3D);
 
 	gl_FragColor = vec4(col,1.0);

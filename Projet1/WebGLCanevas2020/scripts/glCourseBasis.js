@@ -55,7 +55,12 @@ class objmesh {
 		this.shader.objColor = gl.getUniformLocation(this.shader,"uObjColor");
 		this.shader.lightPos = gl.getUniformLocation(this.shader,"uLightPos");
 		this.shader.lightColor = gl.getUniformLocation(this.shader,"uLightColor");
+		this.shader.kd = gl.getUniformLocation(this.shader, "uKd");
+		this.shader.ks = gl.getUniformLocation(this.shader, "uKs");
+		this.shader.roughness = gl.getUniformLocation(this.shader, "uM");
+		this.shader.indRefract = gl.getUniformLocation(this.shader, "uN");
 
+		this.shader.torrance = gl.getUniformLocation(this.shader, "uTorranceOn");
 
 		this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "uRMatrix");
 		this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
@@ -79,10 +84,18 @@ class objmesh {
 			[vecTranslation[0],vecTranslation[1],vecTranslation[2]]);
 		gl.uniform3fv(this.shader.objColor, [redObj/255,greenObj/255,blueObj/255]);
 		gl.uniform3fv(this.shader.lightColor, [redLight/255,greenLight/255,blueLight/255]);
-
 		gl.uniform3fv(this.shader.lightPos,
 			[vecTranslation[0],vecTranslation[1],vecTranslation[2]]);
+
+		gl.uniform1f(this.shader.kd, kdValue);
+		gl.uniform1f(this.shader.ks, ksValue);
+
+		gl.uniform1f(this.shader.roughness, mValue);
+		gl.uniform1f(this.shader.indRefract, nValue);
+
+		gl.uniform1i(this.shader.torrance, torranceOn);
 	}
+
 
 	// --------------------------------------------
 	draw() {

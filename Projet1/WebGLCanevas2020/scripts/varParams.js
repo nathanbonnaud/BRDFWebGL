@@ -4,8 +4,7 @@ var controleLumiere = false;
 var spanDeplacementCamera = document.getElementById("deplacementCamera");
 var spanDeplacementLumiere = document.getElementById("deplacementLumiere");
 
-var phongMethod = true;
-var cookTorranceMethod = false;
+var torranceOn = 0;
 var spanPhong = document.getElementById("phong");
 var spanCookTorrance = document.getElementById("cookTorance");
 
@@ -34,8 +33,7 @@ spanDeplacementLumiere.onclick = function (){
 
 //clique sur le span Phong
 spanPhong.onclick = function (){
-    phongMethod = true;
-    cookTorranceMethod = false;
+    torranceOn = 0;
 
     spanPhong.style.boxShadow = "1px 2px";
     spanPhong.style.backgroundColor = "yellow";
@@ -49,8 +47,7 @@ spanPhong.onclick = function (){
 
 //clique sur le span Cook-Torrance
 spanCookTorrance.onclick = function (){
-    phongMethod = false;
-    cookTorranceMethod = true;
+    torranceOn = 1;
 
     spanCookTorrance.style.boxShadow = "1px 2px";
     spanCookTorrance.style.backgroundColor = "yellow";
