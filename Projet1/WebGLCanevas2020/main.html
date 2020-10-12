@@ -9,14 +9,14 @@
 	<script type="text/javascript" src="lib/farbtastic12/farbtastic/farbtastic.js"></script>
 	<link rel="stylesheet" href="lib/farbtastic12/farbtastic/farbtastic.css" type="text/css">
 	<script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
-		$('#picker').farbtastic('#color');
-	});
+		$(document).ready(function() {
+			$('#picker').farbtastic('#color');
+		});
 	</script>
 	<script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
-		$('#picker2').farbtastic('#color2');
-	});
+		$(document).ready(function() {
+			$('#picker2').farbtastic('#color2');
+		});
 	</script>
 	<!------------------------------------------------------->
 
@@ -25,7 +25,11 @@
 
 <body onload="webGLStart();">
 <canvas id="WebGL-test" style="border:none;" width="800" height="600"></canvas>
-<div id="parametresCT">
+
+<span id="phong">Phong</span>
+<span id="cookTorance">Cook-Torrance</span>
+
+<div id="parametres">
 
 	<h2>Parameters</h2>
 
@@ -33,8 +37,21 @@
 		<h3>Light :</h3>
 		<p> Color: <span id="colorObj2"></span></p>
 		<div class="form-item"><input type="text" id="color2" name="color" value="#123456" /></div><div id="picker2"></div>
-		<p> Intensity: <span id="intensity"></span></p>
+		<p> Intensity : <span id="intensity"></span></p>
+		<input type="range" min="0" max="100" value="50" class="slider" id="intensitySlider">
+
+		<p> Kd : <span id="kd"></span></p>
 		<input type="range" min="0" max="100" value="50" class="slider" id="kdSlider">
+
+		<p> Ks : <span id="ks"></span></p>
+		<input type="range" min="0" max="100" value="50" class="slider" id="ksSlider">
+
+		<p class="propertyCT"> m : <span id="roughness" ></span></p>
+		<input type="range" min="0" max="100" value="50" id="roughnessSlider" class="propertyCT">
+
+		<p class="propertyCT"> n : <span id="indRefrac"></span></p>
+		<input type="range" min="50" max="300" value="100" id="indRefracSlider" class="propertyCT">
+
 	</div>
 
 	<div id="object">
@@ -42,21 +59,20 @@
 		<p> Color: <span id="colorObj"></span></p>
 		<div class="form-item"><input type="text" id="color" name="color" value="#123456" /></div><div id="picker"></div>
 	</div>
-
-	<div id= "selectedObj">
-		<h3 >Select An Object :</h3>
-		<input type="radio" id="bunny" name="object" value="Bunny" checked onclick="selectedBunny()">
-		<label for="bunny">Bunny</label><br>
-		<input type="radio" id="dragon" name="object" value="Dragon" onclick="selectedDragon()">
-		<label for="dragon">Dragon</label><br>
-		<input type="radio" id="teapot" name="object" value="Teapot" onclick="selectedTeapot()">
-		<label for="teapot">Teapot</label>
-	</div>
-
-	<h3 id="Souris">Déplacement avec la souris de : </h3>
-	<span id="deplacementCamera">La caméra</span>
-	<span id="deplacementLumiere">La lumière</span>
 </div>
+
+<div id= "selectedObj">
+	<h3 >Select An Object :</h3>
+	<input type="radio" id="bunny" name="object" value="Bunny" checked onclick="selectedBunny()">
+	<label for="bunny">Bunny</label><br>
+	<input type="radio" id="dragon" name="object" value="Dragon" onclick="selectedDragon()">
+	<label for="dragon">Dragon</label><br>
+	<input type="radio" id="teapot" name="object" value="Teapot" onclick="selectedTeapot()">
+	<label for="teapot">Teapot</label>
+</div>
+
+<span id="deplacementCamera">Camera</span>
+<span id="deplacementLumiere">Light</span>
 <br><br>
 </body>
 

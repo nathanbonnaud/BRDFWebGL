@@ -72,7 +72,7 @@ class objmesh {
 		gl.uniformMatrix4fv(this.shader.mvMatrixUniform, false, mvMatrix);
 		gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, pMatrix);
 
-		gl.uniform3fv(this.shader.lightPower, [kdValue,kdValue,kdValue]);
+		gl.uniform3fv(this.shader.lightPower, [intensityValue,intensityValue,intensityValue]);
 		gl.uniform3fv(this.shader.objColor, [0,1,0]);
 
 		gl.uniform3fv(this.shader.lightPos,

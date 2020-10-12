@@ -22,8 +22,8 @@ vec3 Phong(vec3 PosLight, vec3 LightColor, vec3 Normal, vec4 Position, vec3 ObjC
 
     vec3 Cs = LightColor*uLightPower;
     float s = 100.0;
-    vec3 ReflectLum = reflect(normalize(vec3(PosLight-vec3(Position))), Normal);
-    vec3 Is = Cs * pow(max(dot(Normal, normalize(vec3(PosLight-vec3(Position)))), 0.), s);
+    vec3 ReflectLum = reflect(normalize(vec3(vec3(Position)-PosLight)), Normal);
+    vec3 Is = Cs * pow(max(dot(ReflectLum, normalize(-vec3(Position))), 0.), s);
 
     float Ka = 0.15;
     float Kd = 0.6;
