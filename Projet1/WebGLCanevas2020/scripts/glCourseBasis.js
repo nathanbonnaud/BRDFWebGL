@@ -51,14 +51,16 @@ class objmesh {
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.normalBuffer);
 		gl.vertexAttribPointer(this.shader.nAttrib, this.mesh.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-		this.shader.lightPower = gl.getUniformLocation(this.shader,"uLightPower");
-		this.shader.objColor = gl.getUniformLocation(this.shader,"uObjColor");
-		this.shader.lightPos = gl.getUniformLocation(this.shader,"uLightPos");
-		this.shader.lightColor = gl.getUniformLocation(this.shader,"uLightColor");
-		this.shader.kd = gl.getUniformLocation(this.shader, "uKd");
+		this.shader.lightPower = gl.getUniformLocation(this.shader,"uLi");
+		this.shader.objColor = gl.getUniformLocation(this.shader,"uObjcolor");
+		this.shader.lightPos = gl.getUniformLocation(this.shader,"uLpos");
+		this.shader.lightColor = gl.getUniformLocation(this.shader,"uLcolor");
+		this.shader.kd = gl.getUniformLocation(this.shader, "uRhoD");
 		this.shader.ks = gl.getUniformLocation(this.shader, "uKs");
 		this.shader.roughness = gl.getUniformLocation(this.shader, "uM");
-		this.shader.indRefract = gl.getUniformLocation(this.shader, "uN");
+		this.shader.indRefract = gl.getUniformLocation(this.shader, "uNi");
+		this.shader.indBright = gl.getUniformLocation(this.shader, "uN");
+
 
 		this.shader.torrance = gl.getUniformLocation(this.shader, "uTorranceOn");
 
@@ -92,6 +94,7 @@ class objmesh {
 
 		gl.uniform1f(this.shader.roughness, mValue);
 		gl.uniform1f(this.shader.indRefract, nValue);
+		gl.uniform1f(this.shader.indBright, 100.0);
 
 		gl.uniform1i(this.shader.torrance, torranceOn);
 	}

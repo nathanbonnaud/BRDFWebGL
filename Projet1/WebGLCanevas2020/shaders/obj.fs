@@ -1,18 +1,18 @@
 
 precision mediump float;
 
-uniform vec3 uLightPower;
-uniform vec3 uLightPos;
-uniform vec3 uLightColor; // Couleur ambiante ?
-uniform vec3 uObjColor;
+uniform vec3 uLi;
+uniform vec3 uLpos;
+uniform vec3 uLcolor; // Couleur ambiante ?
+uniform vec3 uObjcolor;
 
-uniform float uKd;
+uniform float uRhoD;
 uniform float uKs;
-uniform float uM;
 uniform float uN;
+uniform float uM;
+uniform float uNi;
 
 uniform int uTorranceOn;
-//bool Torrance = true;
 
 varying vec4 pos3D;
 varying vec3 N;
@@ -20,82 +20,135 @@ varying vec3 N;
 const float M_PI = 3.145;
 
 
+// =======================================================================================================
+
 // Calcule l'aspect diffus du fragment à l'aide du modèle de Lambert
-vec3 Lambert(vec3 Li, vec3 LightPos, vec3 LightColor, vec3 ObjColor, vec3 Normal, vec4 Position)
+vec3 Lambert(vec3 Lpos, vec3 Objcolor, vec3 N, vec4 Pos3D, float RhoD)
 {
-	return (Li*LightColor)*(ObjColor/M_PI) * clamp(dot(Normal,normalize(vec3(LightPos-vec3(Position)))),0.0,1.0);
+	vec3 L = vec3(Lpos-vec3(Pos3D));
+	float cosT = max(dot(N,normalize(L)),0.0);
+	vec3 Kd = uRhoD * Objcolor * cosT;
+
+	return Kd ;
 }
+
+// ======================================================================================================
 
 // Calcule le modèle de Phong en fusionnant l'aspect diffus et spéculaire
-vec3 Phong(vec3 LightPos, vec3 LightColor, vec3 LightPower, vec3 ObjColor, vec3 Normal, vec4 Position)
+float BlinnPhongModifie(vec3 Lpos, vec3 N, vec4 Pos3D , float n)
 {
-    vec3 Id = Lambert(LightPower,LightPos,LightColor,ObjColor,Normal,Position);
-    vec3 Reflect = reflect(normalize(vec3(vec3(Position)-LightPos)), Normal);
-    vec3 Is = (LightColor*LightPower) * pow(max(dot(Reflect, normalize(-vec3(Position))), 0.), 100.0);
+	float Ks = (1.0-uRhoD);
 
-    return uKd * Id + uKs * Is;
+	vec3 L = vec3(vec3(Pos3D)-Lpos);
+	vec3 CamDir = -vec3(Pos3D);
+  vec3 Lreflect = reflect(normalize(L), N);
+  float cosA = pow(max(dot(Lreflect, normalize(CamDir)), 0.0), n);
+	float Is = Ks * ((n+8.0)/(8.0*M_PI)) * cosA;
+
+  return Is;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+//============================================================================================================
 
-// calcule du coefficient de Fresnel
-float Fresnel(vec3 LightDir, vec3 MicrofacetDir, float refractionId)
+// calcule de Fresnel
+float F(vec3 L, vec3 M, float ni)
 {
-  float c = abs(dot(LightDir,MicrofacetDir));
-  float g = sqrt(pow(refractionId,2.0)+pow(c,2.0)-1.0);
-  float coeff1 = pow(g-c,2.0)/(2.0*pow(g+c,2.0));
-  float coeff2 = 1.0 + pow(c*(g+c)-1.0  ,2.0)/pow(c*(g-c)+1.0,2.0);
+  float c = max(dot(L,M),0.0);
+	float ni2 = ni*ni;
+	float c2 = c*c;
+  float g = sqrt(ni2*c2-1.0);
+	float gmc = g-c;
+	float gpc = g+c;
+	float gmc2 = gmc*gmc;
+	float gpc2 = gpc*gpc;
 
-  return coeff1 * coeff2;
+	float top = (c*gpc -1.0)*(c*gpc-1.0);
+	float bot = (c*gmc +1.0)*(c*gmc+1.0);
+
+	float coeff1 = gmc2/(2.0*gpc2);
+  float coeff2 = 1.0 + top/bot;
+
+	float F = coeff1*coeff2;
+
+  return F;
 }
 
-float Ombrage(vec3 Normal, vec3 MicrofacetDir, vec3 LightDir, vec3 CameraDir)
-{
-  float val1 = (2.0*dot(Normal,MicrofacetDir)*dot(Normal,CameraDir))/dot(CameraDir,MicrofacetDir);
-  float val2 = (2.0*dot(Normal,MicrofacetDir)*dot(Normal,LightDir))/dot(LightDir,MicrofacetDir);
+//================================================================================================================
 
-  return min(1.0,min(val1,val2));
+//coefficient d'ombrage
+float G(vec3 N, vec3 M, vec3 L, vec3 CamDir)
+{
+  float val1 = (2.0*max(dot(N,M),0.0)*max(dot(N,CamDir),0.0)/max(dot(CamDir,M),0.0));
+  float val2 = (2.0*max(dot(N,M),0.0)*max(dot(N,L),0.0)/max(dot(L,M),0.0));
+	float G = min(1.0,min(val1,val2));
+
+  return G;
 }
 
-float Beckmann(vec3 Normal, vec3 MicrofacetDir)
+//=================================================================================================================
+
+//calcul de la distribution de Beckmann
+float D(vec3 N, vec3 M, float m)
 {
-  float theta = acos(dot(Normal,MicrofacetDir));
-  float powValue = exp(-pow(theta,2.0)/(2.0*pow(uM,2.0)));
-  float divi = M_PI*pow(uM,2.0)*pow(cos(theta),4.0);
-  return powValue/divi;
+	float CosT = max(dot(N,M),0.0);
+	float CosT2 = CosT*CosT;
+	float CosT4 = CosT2*CosT2;
+	float SinT2 = 1.0-CosT2;
+	float TanT2 = SinT2/CosT2;
+	float m2 = m*m;
+
+  float e = exp(-TanT2/(2.0*m2));
+  float bot = M_PI*m2*CosT4;
+
+	float D = e/bot;
+
+  return D;
 }
 
-//Calcule la valeur spéculaire de la brdf
-float CookTorrance(vec3 LightPos, vec3 ObjColor, vec3 Normal, vec4 Position)
-{
-  vec3 VectorLight = normalize(vec3(LightPos-vec3(Position)));
-  vec3 VectorCamera =  normalize(-vec3(Position));
-  vec3 VectorMicrofacet = normalize((VectorLight + VectorCamera)/2.0);
 
-
-  return (Fresnel(VectorLight,VectorMicrofacet,uN)*Ombrage(Normal,VectorMicrofacet,VectorLight,VectorCamera)*Beckmann(Normal,VectorMicrofacet))
-                /(4.0*abs(dot(VectorLight,Normal))*abs(dot(VectorCamera,Normal)));
-}
+//========================================================================================================
 
 //somme des couleurs et retourne la couleur finale de l'objet
-vec3 Brdf(vec3 LightPos, vec3 LightColor, vec3 LightPower, vec3 ObjColor, vec3 Normal, vec4 Position)
+vec3 CookTorrance(vec3 Lpos, vec3 Objcolor, vec3 N, vec4 Pos3D)
 {
-  float cookTorrance =CookTorrance(LightPos, ObjColor, N, pos3D);
-  float  specular = cookTorrance * clamp(dot(N,normalize(vec3(LightPos-vec3(pos3D)))),0.0,1.0);
-  vec3 diffuse = Lambert(LightPower, LightPos, LightColor, ObjColor, N, pos3D);
+	vec3 L = normalize(vec3(Lpos-vec3(Pos3D)));
+  vec3 CamDir =  normalize(-vec3(Pos3D));
+  vec3 M = normalize(L + CamDir);
 
-  return uKs*specular* (LightPower*LightColor) + uKd*diffuse;
-  //return 0.1*specular* (LightPower*LightColor) + 0.9*diffuse;
+	float F = F(L,M,uNi);
+	float G = G(N,M,L,CamDir);
+	float D = D(N,M,uM);
+	vec3 Kd = Lambert(Lpos, Objcolor, N, Pos3D, 1.0-F);
+
+	float bot = 4.0*max(dot(L,N),0.0)*max(dot(CamDir,N),0.0);
+	float top = F*G*D;
+	float Ks = top/bot;
+	vec3 col = Kd/M_PI + Ks;
+
+	return col;
 }
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////
+//=========================================================================================================
 
 // Fonction principale du fragement shader, il renvoit la couleur final de chaque fragment.
 void main(void)
 {
-  vec3 col = (uTorranceOn == 1) ? Brdf(uLightPos, uLightColor, uLightPower, uObjColor, N, pos3D)
-                        : Phong(uLightPos, uLightColor, uLightPower, uObjColor, N, pos3D);
+	vec3 Fr;
 
+	vec3 Li = uLi*uLcolor;
+	float CosT = max(dot(normalize(N),normalize(uLpos-vec3(pos3D))),0.0);
+
+  if(uTorranceOn == 0)
+	{
+		// Modèle Blinn Phong modifié
+		vec3 Kd = Lambert(uLpos,uObjcolor,normalize(N),pos3D, uRhoD);
+		Fr = Kd/M_PI + BlinnPhongModifie(uLpos,normalize(N),pos3D,uN);
+	}else
+	{
+		// Modèle Cook Torrance
+		Fr = CookTorrance(uLpos,uObjcolor,normalize(N),pos3D);
+	}
+
+	vec3 col = Li * Fr * CosT;
 	gl_FragColor = vec4(col,1.0);
 }
