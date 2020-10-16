@@ -3,7 +3,7 @@ precision mediump float;
 
 uniform vec3 uLi;
 uniform vec3 uLpos;
-uniform vec3 uLcolor; // Couleur ambiante ?
+uniform vec3 uLcolor;
 uniform vec3 uObjcolor;
 
 uniform float uRhoD;

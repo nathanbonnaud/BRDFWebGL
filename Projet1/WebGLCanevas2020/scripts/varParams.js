@@ -43,6 +43,12 @@ spanPhong.onclick = function (){
     for (let i = 0; i < propertiesCT.length; i++) {
         propertiesCT[i].style.display = "none";
     }
+
+    document.getElementById("kdSlider").style.display = "block";
+    document.getElementById("pKd").style.display = "block";
+
+    document.getElementById("brightnessSlider").style.display = "block";
+    document.getElementById("pBrightness").style.display = "block";
 }
 
 //clique sur le span Cook-Torrance
@@ -56,7 +62,15 @@ spanCookTorrance.onclick = function (){
 
     for (let i = 0; i < propertiesCT.length; i++) {
         propertiesCT[i].style.display = "block";
-    }}
+    }
+
+    document.getElementById("kdSlider").style.display = "none";
+    document.getElementById("pKd").style.display = "none";
+
+    document.getElementById("brightnessSlider").style.display = "none";
+    document.getElementById("pBrightness").style.display = "none";
+}
+
 
 
 
@@ -85,16 +99,16 @@ kdSlider.oninput = function (){
     kdSpan.innerHTML = this.value/100;
 }
 
-/* slider "Ks" gère la valeur Ks */
-var ksSpan = document.getElementById("ks");
-var ksSlider = document.getElementById("ksSlider");
+/* slider "brightness" gère la valeur le coefficient brightness */
+var brightnessSpan = document.getElementById("brightness");
+var brightnessSlider = document.getElementById("brightnessSlider");
 
-ksSlider.value = 50;
-ksValue = ksSlider.value/100;
+brightnessSlider.value = 10;
+brightnessValue = brightnessSlider.value*10;
 
-ksSlider.oninput = function (){
-    ksValue = this.value/100;
-    ksSpan.innerHTML = this.value/100;
+brightnessSlider.oninput = function (){
+    brightnessValue = this.value*10;
+    brightnessSpan.innerHTML = this.value*10;
 }
 
 /* slider "m" gère la rugosité */
@@ -113,7 +127,7 @@ mSlider.oninput = function (){
 var nSpan = document.getElementById("indRefrac");
 var nSlider = document.getElementById("indRefracSlider");
 
-nSlider.value = 100;
+nSlider.value = 150;
 nValue = nSlider.value/100;
 
 nSlider.oninput = function (){
@@ -127,11 +141,11 @@ colorLight.hidden =true;
 
 function updateColorLight()
 {
-  /* cette partie récupère la couleur du background en string et la convertie en int */
-	var val = colorLight.style.backgroundColor.split('(')[1].split(')')[0].split(", ");
-	redLight = parseInt(val[0],10);
-	greenLight = parseInt(val[1],10);
-	blueLight = parseInt(val[2],10);
+    /* cette partie récupère la couleur du background en string et la convertie en int */
+    var val = colorLight.style.backgroundColor.split('(')[1].split(')')[0].split(", ");
+    redLight = parseInt(val[0],10);
+    greenLight = parseInt(val[1],10);
+    blueLight = parseInt(val[2],10);
 }
 
 //Objets
@@ -141,17 +155,17 @@ color.hidden =true;
 
 function updateColorObj()
 {
-  /* cette partie récupère la couleur du background en string et la convertie en int */
-	var val1 = color.style.backgroundColor.split('(')[1].split(')')[0].split(", ");
-	redObj = parseInt(val1[0],10);
-	greenObj = parseInt(val1[1],10);
-	blueObj = parseInt(val1[2],10);
+    /* cette partie récupère la couleur du background en string et la convertie en int */
+    var val1 = color.style.backgroundColor.split('(')[1].split(')')[0].split(", ");
+    redObj = parseInt(val1[0],10);
+    greenObj = parseInt(val1[1],10);
+    blueObj = parseInt(val1[2],10);
 }
 
 moveLight = function() {
-	movelight = true;
+    movelight = true;
 }
 
 moveObj = function() {
-	movelight = false;
+    movelight = false;
 }
