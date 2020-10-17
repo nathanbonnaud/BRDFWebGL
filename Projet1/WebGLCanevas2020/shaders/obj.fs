@@ -1,4 +1,3 @@
-
 precision mediump float;
 
 uniform vec3 uLi;
@@ -9,7 +8,7 @@ uniform vec3 uObjcolor;
 uniform float uRhoD;
 uniform float uKs;
 uniform float uN;
-uniform float uM;
+uniform float uSigma;
 uniform float uNi;
 
 uniform int uTorranceOn;
@@ -35,7 +34,7 @@ vec3 Lambert(vec3 Lpos, vec3 Objcolor, vec3 N, vec4 Pos3D, float RhoD)
 // ======================================================================================================
 
 // Calcule le modèle de Phong en fusionnant l'aspect diffus et spéculaire
-float BlinnPhongModifie(vec3 Lpos, vec3 N, vec4 Pos3D , float n)
+float BlinnPhongModify(vec3 Lpos, vec3 N, vec4 Pos3D , float n)
 {
 	float Ks = (1.0-uRhoD);
 
@@ -51,12 +50,12 @@ float BlinnPhongModifie(vec3 Lpos, vec3 N, vec4 Pos3D , float n)
 //============================================================================================================
 
 // calcule de Fresnel
-float F(vec3 L, vec3 M, float ni)
+float F(vec3 L, vec3 M, float Ni)
 {
   float c = max(dot(L,M),0.0);
-	float ni2 = ni*ni;
+	float Ni2 = Ni*Ni;
 	float c2 = c*c;
-  float g = sqrt(ni2*c2-1.0);
+  float g = sqrt(Ni2*c2-1.0);
 	float gmc = g-c;
 	float gpc = g+c;
 	float gmc2 = gmc*gmc;
@@ -64,10 +63,8 @@ float F(vec3 L, vec3 M, float ni)
 
 	float top = (c*gpc -1.0)*(c*gpc-1.0);
 	float bot = (c*gmc +1.0)*(c*gmc+1.0);
-
 	float coeff1 = gmc2/(2.0*gpc2);
   float coeff2 = 1.0 + top/bot;
-
 	float F = coeff1*coeff2;
 
   return F;
@@ -88,18 +85,17 @@ float G(vec3 N, vec3 M, vec3 L, vec3 CamDir)
 //=================================================================================================================
 
 //calcul de la distribution de Beckmann
-float D(vec3 N, vec3 M, float m)
+float D(vec3 N, vec3 M, float Sigma)
 {
 	float CosT = max(dot(N,M),0.0);
 	float CosT2 = CosT*CosT;
 	float CosT4 = CosT2*CosT2;
 	float SinT2 = 1.0-CosT2;
 	float TanT2 = SinT2/CosT2;
-	float m2 = m*m;
+	float Sigma2 = Sigma*Sigma;
 
-  float e = exp(-TanT2/(2.0*m2));
-  float bot = M_PI*m2*CosT4;
-
+  float e = exp(-TanT2/(2.0*Sigma2));
+  float bot = M_PI*Sigma2*CosT4;
 	float D = e/bot;
 
   return D;
@@ -117,15 +113,15 @@ vec3 CookTorrance(vec3 Lpos, vec3 Objcolor, vec3 N, vec4 Pos3D)
 
 	float F = F(L,M,uNi);
 	float G = G(N,M,L,CamDir);
-	float D = D(N,M,uM);
-	vec3 Kd = Lambert(Lpos, Objcolor, N, Pos3D, 1.0-F);
+	float D = D(N,M,uSigma);
 
 	float bot = 4.0*max(dot(L,N),0.0)*max(dot(CamDir,N),0.0);
 	float top = F*G*D;
-	float Ks = top/bot;
-	vec3 col = Kd/M_PI + Ks;
+	float spec = top/bot;
+	vec3 Kd = Lambert(Lpos, Objcolor, N, Pos3D, 1.0-F);
 
-	return col;
+	vec3 brdf = Kd/M_PI + spec;
+	return brdf;
 }
 
 //=========================================================================================================
@@ -134,7 +130,6 @@ vec3 CookTorrance(vec3 Lpos, vec3 Objcolor, vec3 N, vec4 Pos3D)
 void main(void)
 {
 	vec3 Fr;
-
 	vec3 Li = uLi*uLcolor;
 	float CosT = max(dot(normalize(N),normalize(uLpos-vec3(pos3D))),0.0);
 
@@ -142,7 +137,7 @@ void main(void)
 	{
 		// Modèle Blinn Phong modifié
 		vec3 Kd = Lambert(uLpos,uObjcolor,normalize(N),pos3D, uRhoD);
-		Fr = Kd/M_PI + BlinnPhongModifie(uLpos,normalize(N),pos3D,uN);
+		Fr = Kd/M_PI + BlinnPhongModify(uLpos,normalize(N),pos3D,uN);
 	}else
 	{
 		// Modèle Cook Torrance

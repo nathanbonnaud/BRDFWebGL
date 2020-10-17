@@ -57,7 +57,7 @@ class objmesh {
 		this.shader.lightColor = gl.getUniformLocation(this.shader,"uLcolor");
 		this.shader.kd = gl.getUniformLocation(this.shader, "uRhoD");
 
-		this.shader.roughness = gl.getUniformLocation(this.shader, "uM");
+		this.shader.roughness = gl.getUniformLocation(this.shader, "uSigma");
 		this.shader.indRefract = gl.getUniformLocation(this.shader, "uNi");
 		this.shader.indBright = gl.getUniformLocation(this.shader, "uN");
 
@@ -161,7 +161,7 @@ selectedBunny = function (){
 }
 
 selectedDragon = function (){
-	objectName = "dragon";
+	objectName = "CuteOcto";
 	loadObjFile(OBJ1);
 }
 
