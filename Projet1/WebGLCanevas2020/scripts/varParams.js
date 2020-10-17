@@ -169,3 +169,12 @@ moveLight = function() {
 moveObj = function() {
     movelight = false;
 }
+
+document.getElementById("selectedObj").innerHTML =
+    "\t<h3 >Select An Object :</h3>\n" +
+    "\t<input type=\"radio\" id=\"bunny\" name=\"object\" value=\"Bunny\" checked=\"checked\" onclick=\"selectedBunny()\">\n" +
+    "\t<label for=\"bunny\">Bunny</label><br>\n" +
+    "\t<input type=\"radio\" id=\"helmet\" name=\"object\" value=\"Helmet\" onclick=\"selectedHelmet()\">\n" +
+    "\t<label for=\"helmet\">Helmet</label><br>\n" +
+    "\t<input type=\"radio\" id=\"teapot\" name=\"object\" value=\"Teapot\" onclick=\"selectedTeapot()\">\n" +
+    "\t<label for=\"teapot\">Teapot</label>";
