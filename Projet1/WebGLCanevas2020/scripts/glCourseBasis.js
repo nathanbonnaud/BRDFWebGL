@@ -85,8 +85,6 @@ class objmesh {
 			[vecTranslation[0],vecTranslation[1],vecTranslation[2]]);
 		gl.uniform3fv(this.shader.objColor, [redObj/255,greenObj/255,blueObj/255]);
 		gl.uniform3fv(this.shader.lightColor, [redLight/255,greenLight/255,blueLight/255]);
-		gl.uniform3fv(this.shader.lightPos,
-			[vecTranslation[0],vecTranslation[1],vecTranslation[2]]);
 
 		gl.uniform1f(this.shader.kd, kdValue);
 
@@ -160,8 +158,8 @@ selectedBunny = function (){
 	loadObjFile(OBJ1);
 }
 
-selectedDragon = function (){
-	objectName = "CuteOcto";
+selectedHelmet = function (){
+	objectName = "helmet";
 	loadObjFile(OBJ1);
 }
 

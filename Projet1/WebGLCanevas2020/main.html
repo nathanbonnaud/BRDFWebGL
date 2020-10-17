@@ -4,7 +4,7 @@
 	<title>WebGL - Canvas test</title>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 
-	<!-- librairie 'farbastic' utilisÃ© pour le color picker -->
+	<!-- librairie 'farbastic' utilisé pour le color picker -->
 	<script type="text/javascript" src="lib/farbtastic12/farbtastic/node_modules/jquery/dist/jquery.js"></script>
 	<script type="text/javascript" src="lib/farbtastic12/farbtastic/farbtastic.js"></script>
 	<link rel="stylesheet" href="lib/farbtastic12/farbtastic/farbtastic.css" type="text/css">
@@ -38,7 +38,7 @@
 		<p> Color: <span id="colorObj2"></span></p>
 		<div class="form-item"><input type="text" id="color2" name="color" value="#123456" /></div><div id="picker2"></div>
 		<p> Intensity : <span id="intensity"></span></p>
-		<input type="range" min="0" max="100" value="50" class="slider" id="intensitySlider">
+		<input type="range" min="0" max="100" value="30" class="slider" id="intensitySlider">
 
 		<p id="pKd"> Kd : <span id="kd"></span></p>
 		<input type="range" min="0" max="100" value="50" id="kdSlider">
@@ -65,8 +65,8 @@
 	<h3 >Select An Object :</h3>
 	<input type="radio" id="bunny" name="object" value="Bunny" checked onclick="selectedBunny()">
 	<label for="bunny">Bunny</label><br>
-	<input type="radio" id="dragon" name="object" value="Dragon" onclick="selectedDragon()">
-	<label for="dragon">Dragon</label><br>
+	<input type="radio" id="helmet" name="object" value="Helmet" onclick="selectedHelmet()">
+	<label for="helmet">Helmet</label><br>
 	<input type="radio" id="teapot" name="object" value="Teapot" onclick="selectedTeapot()">
 	<label for="teapot">Teapot</label>
 </div>

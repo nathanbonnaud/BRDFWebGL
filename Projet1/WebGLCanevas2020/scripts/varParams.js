@@ -79,7 +79,7 @@ spanCookTorrance.onclick = function (){
 var intensitySpan = document.getElementById("intensity");
 var intensitySlider = document.getElementById("intensitySlider");
 
-intensitySlider.value = 50;
+intensitySlider.value = 30;
 intensityValue = intensitySlider.value/10;
 
 intensitySlider.oninput = function (){

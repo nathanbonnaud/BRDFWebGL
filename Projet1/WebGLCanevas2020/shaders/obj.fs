@@ -26,7 +26,7 @@ vec3 Lambert(vec3 Lpos, vec3 Objcolor, vec3 N, vec4 Pos3D, float RhoD)
 {
 	vec3 L = vec3(Lpos-vec3(Pos3D));
 	float cosT = max(dot(N,normalize(L)),0.0);
-	vec3 Kd = uRhoD * Objcolor * cosT;
+	vec3 Kd = RhoD * Objcolor * cosT;
 
 	return Kd ;
 }
@@ -107,9 +107,9 @@ float D(vec3 N, vec3 M, float Sigma)
 //somme des couleurs et retourne la couleur finale de l'objet
 vec3 CookTorrance(vec3 Lpos, vec3 Objcolor, vec3 N, vec4 Pos3D)
 {
-	vec3 L = normalize(vec3(Lpos-vec3(Pos3D)));
-  vec3 CamDir =  normalize(-vec3(Pos3D));
-  vec3 M = normalize(L + CamDir);
+    vec3 L = normalize(vec3(Lpos-vec3(Pos3D)));
+    vec3 CamDir =  normalize(-vec3(Pos3D));
+    vec3 M = normalize(L + CamDir);
 
 	float F = F(L,M,uNi);
 	float G = G(N,M,L,CamDir);
