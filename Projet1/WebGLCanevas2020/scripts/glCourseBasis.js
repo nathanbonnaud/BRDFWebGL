@@ -158,8 +158,8 @@ selectedBunny = function (){
 	loadObjFile(OBJ1);
 }
 
-selectedHelmet = function (){
-	objectName = "helmet";
+selectedDragon = function (){
+	objectName = "Mando_Helmet";
 	loadObjFile(OBJ1);
 }
 

@@ -49,13 +49,13 @@ float BlinnPhongModify(vec3 Lpos, vec3 N, vec4 Pos3D , float n)
 
 //============================================================================================================
 
-// calcule de Fresnel
+//Fresnel
 float F(vec3 L, vec3 M, float Ni)
 {
   float c = max(dot(L,M),0.0);
 	float Ni2 = Ni*Ni;
 	float c2 = c*c;
-  float g = sqrt(Ni2*c2-1.0);
+  float g = sqrt(Ni2+c2-1.0);
 	float gmc = g-c;
 	float gpc = g+c;
 	float gmc2 = gmc*gmc;
