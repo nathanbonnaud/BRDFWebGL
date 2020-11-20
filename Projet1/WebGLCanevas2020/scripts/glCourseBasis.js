@@ -14,7 +14,7 @@ var vecTranslation = [0,0,0,1];
 // =====================================================
 
 var OBJ1 = null;
-var PLANE = null;
+var SKYBOX = null;
 
 var objectName = "bunny";
 
@@ -250,7 +250,7 @@ function webGLStart() {
 
 	distCENTER = vec3.create([0,-0.2,-3]);
 	OBJ1 = new objmesh('objects/'+objectName+'.obj');
-
+	SKYBOX = new skybox();
 	tick();
 }
 
@@ -258,4 +258,5 @@ function webGLStart() {
 function drawScene() {
 	gl.clear(gl.COLOR_BUFFER_BIT);
 	OBJ1.draw();
+	SKYBOX.draw()
 }
