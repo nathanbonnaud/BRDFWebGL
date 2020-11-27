@@ -435,6 +435,12 @@ mat4.toInverseMat3 = function (a, b) {
     return b
 };
 
+//---------ajout---------
+mat4.to1DArray = function (a) {
+    return [a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8], a[9], a[10], a[11], a[12], a[13], a[14], a[15]];
+};
+//------------------------
+
 mat4.multiply = function (a, b, c) {
     c || (c = a);
     var d = a[0], e = a[1], g = a[2], f = a[3], h = a[4], i = a[5], j = a[6], k = a[7], l = a[8], o = a[9], m = a[10],

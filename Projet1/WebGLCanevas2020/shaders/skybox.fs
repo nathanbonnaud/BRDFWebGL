@@ -1,8 +1,11 @@
-uniform samplerCube skybox;
+precision mediump float;
+precision lowp samplerCube;
+uniform samplerCube uSkybox;
 
-varying vec2 TexCoords;
+varying vec3 TexCoords;
 
-void main()
+void main(void)
 {
-    gl_FragColor = texture(skybox, TexCoords);
+    gl_FragColor = textureCube(uSkybox, TexCoords);
+//    gl_FragColor = vec4(TexCoords ,1.0);
 }

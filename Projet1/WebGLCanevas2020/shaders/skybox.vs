@@ -1,12 +1,17 @@
-attribute vec3 aVertexPosition;
 
-varying vec2 TexCoords;
+precision highp float;
+precision lowp samplerCube;
+attribute vec3 aVertexPosition;
+attribute vec3 texCoords;
+
+varying vec3 TexCoords;
 
 uniform mat4 uPMatrix;
 uniform mat4 uMVMatrix;
 
-void main()
+void main(void)
 {
-    TexCoords = aVertexPosition.xy;
-    gl_Position = uPMatrix * uMVMatrix * vec4(aPoaVertexPositions, 1.0);
+    //TexCoords = normalize(texCoords.xyz/texCoords.w);
+    TexCoords = texCoords;
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
 }

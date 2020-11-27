@@ -249,14 +249,16 @@ function webGLStart() {
 	}
 
 	distCENTER = vec3.create([0,-0.2,-3]);
-	OBJ1 = new objmesh('objects/'+objectName+'.obj');
 	SKYBOX = new skybox();
+	OBJ1 = new objmesh('objects/'+objectName+'.obj');
+
 	tick();
 }
 
 // =====================================================
 function drawScene() {
 	gl.clear(gl.COLOR_BUFFER_BIT);
-	OBJ1.draw();
 	SKYBOX.draw()
+	OBJ1.draw();
+
 }
