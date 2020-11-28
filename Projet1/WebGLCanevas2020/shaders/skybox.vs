@@ -1,6 +1,6 @@
 
-precision highp float;
-precision lowp samplerCube;
+precision mediump float;
+
 attribute vec3 aVertexPosition;
 attribute vec3 texCoords;
 

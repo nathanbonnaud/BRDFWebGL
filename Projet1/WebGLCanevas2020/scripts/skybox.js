@@ -13,7 +13,6 @@ class skybox {
         loadShaders(this);
         this.initBuffers();
         this.setShaders();
-        // this.initTexture();
 
     }
 
@@ -22,145 +21,89 @@ class skybox {
         // Vertices (array)
         var vertices = [
             // positions
-            -1.0*ks,  1.0*ks, -1.0*ks,
             -1.0*ks, -1.0*ks, -1.0*ks,
             1.0*ks, -1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks, -1.0*ks,
             1.0*ks,  1.0*ks, -1.0*ks,
             -1.0*ks,  1.0*ks, -1.0*ks,
 
-            -1.0*ks, -1.0*ks,  1.0*ks,
             -1.0*ks, -1.0*ks, -1.0*ks,
             -1.0*ks,  1.0*ks, -1.0*ks,
-            -1.0*ks,  1.0*ks, -1.0*ks,
             -1.0*ks,  1.0*ks,  1.0*ks,
             -1.0*ks, -1.0*ks,  1.0*ks,
 
-            1.0*ks, -1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks,  1.0*ks,
-            1.0*ks,  1.0*ks,  1.0*ks,
-            1.0*ks,  1.0*ks,  1.0*ks,
-            1.0*ks,  1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks, -1.0*ks,
+            1.0*ks, 1.0*ks,  -1.0*ks,
+            1.0*ks,  -1.0*ks,  -1.0*ks,
+            1.0*ks,  -1.0*ks, 1.0*ks,
+            1.0*ks, 1.0*ks, 1.0*ks,
 
-            -1.0*ks, -1.0*ks,  1.0*ks,
-            -1.0*ks,  1.0*ks,  1.0*ks,
-            1.0*ks,  1.0*ks,  1.0*ks,
-            1.0*ks,  1.0*ks,  1.0*ks,
-            1.0*ks, -1.0*ks,  1.0*ks,
+            -1.0*ks,1.0*ks,  1.0*ks,
+            1.0*ks, 1.0*ks, 1.0*ks,
+            1.0*ks, -1.0*ks,   1.0*ks,
             -1.0*ks, -1.0*ks,  1.0*ks,
 
-            -1.0*ks,  1.0*ks, -1.0*ks,
-            1.0*ks,  1.0*ks, -1.0*ks,
-            1.0*ks,  1.0*ks,  1.0*ks,
-            1.0*ks,  1.0*ks,  1.0*ks,
-            -1.0*ks,  1.0*ks,  1.0*ks,
-            -1.0*ks,  1.0*ks, -1.0*ks,
+            -1.0*ks,  1.0*ks,  -1.0*ks,
+            1.0*ks,  1.0*ks,  -1.0*ks,
+            1.0*ks,  1.0*ks, 1.0*ks,
+            -1.0*ks,  1.0*ks, 1.0*ks,
 
-            -1.0*ks, -1.0*ks, 1.0*ks,
-            1.0*ks, -1.0*ks,  1.0*ks,
-            1.0*ks, -1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks, -1.0*ks,
-            -1.0*ks, -1.0*ks,  -1.0*ks,
-            -1.0*ks, -1.0*ks,  1.0*ks
+            1.0*ks, -1.0*ks,  -1.0*ks,
+            -1.0*ks, -1.0*ks, -1.0*ks,
+            -1.0*ks, -1.0*ks,  1.0*ks,
+            1.0*ks, -1.0*ks, 1.0*ks,
         ];
 
         this.vertexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
         this.vertexBuffer.itemSize = 3;
-        this.vertexBuffer.numItems = 36;
+        this.vertexBuffer.numItems = 24;
 
-        ks = 1.0;
         // Texture coords (array)
         var texcoords = [
             // positions
-            -1.0*ks, 1.0*ks,
-            -1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks,
-            1.0*ks, 1.0*ks,
-            -1.0*ks, 1.0*ks,
+            0.0, 0.0,
+            1.0, 0.0,
+            1.0, 1.0,
+            0.0, 1.0,
 
+            0.0, 0.0,
+            1.0, 0.0,
+            1.0, 1.0,
+            0.0, 1.0,
 
-            -1.0*ks, 1.0*ks,
-            -1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks,
-            1.0*ks, 1.0*ks,
-            -1.0*ks, 1.0*ks,
+            0.0, 0.0,
+            1.0, 0.0,
+            1.0, 1.0,
+            0.0, 1.0,
 
-            -1.0*ks, 1.0*ks,
-            -1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks,
-            1.0*ks, 1.0*ks,
-            -1.0*ks, 1.0*ks,
+            0.0, 0.0,
+            1.0, 0.0,
+            1.0, 1.0,
+            0.0, 1.0,
 
-            -1.0*ks, 1.0*ks,
-            -1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks,
-            1.0*ks, 1.0*ks,
-            -1.0*ks, 1.0*ks,
+            0.0, 0.0,
+            1.0, 0.0,
+            1.0, 1.0,
+            0.0, 1.0,
 
-            -1.0*ks, 1.0*ks,
-            -1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks,
-            1.0*ks, 1.0*ks,
-            -1.0*ks, 1.0*ks,
-
-            -1.0*ks, 1.0*ks,
-            -1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks,
-            1.0*ks, -1.0*ks,
-            1.0*ks, 1.0*ks,
-            -1.0*ks, 1.0*ks,
-
-            // -1.0*ks, -1.0*ks,
-            // -1.0*ks, -1.0*ks,
-            // -1.0*ks, 1.0*ks,
-            // -1.0*ks, 1.0*ks,
-            // -1.0*ks, 1.0*ks,
-            // -1.0*ks, -1.0*ks,
-            //
-            // 1.0*ks, -1.0*ks,
-            // 1.0*ks, -1.0*ks,
-            // 1.0*ks, 1.0*ks,
-            // 1.0*ks, 1.0*ks,
-            // 1.0*ks, 1.0*ks,
-            // 1.0*ks, -1.0*ks,
-            //
-            // -1.0*ks, -1.0*ks,
-            // -1.0*ks, 1.0*ks,
-            // 1.0*ks, 1.0*ks,
-            // 1.0*ks, 1.0*ks,
-            // 1.0*ks, -1.0*ks,
-            // -1.0*ks, -1.0*ks,
-            //
-            // -1.0*ks, 1.0*ks,
-            // 1.0*ks, 1.0*ks,
-            // 1.0*ks, 1.0*ks,
-            // 1.0*ks, 1.0*ks,
-            // -1.0*ks, 1.0*ks,
-            // -1.0*ks, 1.0*ks,
-            //
-            // -1.0*ks, -1.0*ks,
-            // -1.0*ks, -1.0*ks,
-            // 1.0*ks, -1.0*ks,
-            // 1.0*ks, -1.0*ks,
-            // -1.0*ks, -1.0*ks,
-            // 1.0*ks, -1.0*ks
+            0.0, 0.0,
+            1.0, 0.0,
+            1.0, 1.0,
+            0.0, 1.0,
         ];
         this.texCoordBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, this.texCoordBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texcoords), gl.STATIC_DRAW);
         this.texCoordBuffer.itemSize = 2;
-        this.texCoordBuffer.numItems = 36;
+        this.texCoordBuffer.numItems = 24;
 
         // Index buffer (array)
-        var indices = [ 0, 1, 2, 3 , 4 ,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35];
+        var indices = [ 0,1,2,0,2,3,
+                        4,5,6,4,6,7,
+                        8,9,10,8,10,11,
+                        12,13,14,12,14,15,
+                        16,17,18,16,18,19,
+                        20,21,22,20,22,23];
         this.indexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
@@ -171,14 +114,6 @@ class skybox {
     initTexture()
     {
         if(this.shader != null) {
-
-            // var nameText = ["textures/positiveXPurple.png",
-            //     "textures/negativeYPurple.png",
-            //     "textures/positiveYPurple.png",
-            //     "textures/negativeYPurple.png",
-            //     "textures/positiveZPurple.png",
-            //     "textures/negativeZPurple.png"];
-
             var nameText = ["textures/skybox/right.jpg",
                 "textures/skybox/left.jpg",
                 "textures/skybox/top.jpg",
@@ -188,34 +123,18 @@ class skybox {
 
             let texture = gl.createTexture();
             gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
-
             var texImage = [new Image(),new Image(),new Image(),new Image(),new Image(),new Image()];
 
             for(let i=0; i<6; i++){
                 texImage[i].src = nameText[i];
                 texImage[i].onload = function () {
-                    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-                    gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
                     gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texImage[i]);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-                    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-                    gl.uniform1i(this.shader.samplerUniform, 0);
-                    gl.activeTexture(gl.TEXTURE0);
-                    // gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
-                    // gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X + face, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
-                    // gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
                 }
             }
-
-            // gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
-            // gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
             gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
             gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
             gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
             gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_R, gl.CLAMP_TO_EDGE);
-
-
         }
     }
 

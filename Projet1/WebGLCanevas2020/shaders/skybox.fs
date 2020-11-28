@@ -1,5 +1,4 @@
 precision mediump float;
-precision lowp samplerCube;
 uniform samplerCube uSkybox;
 
 varying vec3 TexCoords;
