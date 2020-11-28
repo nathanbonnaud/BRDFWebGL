@@ -12,6 +12,6 @@ uniform mat4 uMVMatrix;
 void main(void)
 {
     //TexCoords = normalize(texCoords.xyz/texCoords.w);
-    TexCoords = texCoords;
+    TexCoords = texCoords-vec3(0.5);
     gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
 }
