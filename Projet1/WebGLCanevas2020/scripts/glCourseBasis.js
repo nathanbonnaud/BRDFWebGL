@@ -258,7 +258,7 @@ function webGLStart() {
 // =====================================================
 function drawScene() {
 	gl.clear(gl.COLOR_BUFFER_BIT);
-	SKYBOX.draw()
+	SKYBOX.draw();
 	OBJ1.draw();
 
 }
