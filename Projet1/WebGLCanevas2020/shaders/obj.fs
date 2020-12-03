@@ -15,6 +15,7 @@ uniform int uTorranceOn;
 
 varying vec4 pos3D;
 varying vec3 N;
+varying vec3 TexCoords;
 
 const float M_PI = 3.145;
 
@@ -143,7 +144,6 @@ void main(void)
 		// Modèle Cook-Torrance
 		Fr = CookTorrance(uLpos,uObjcolor,normalize(N),pos3D);
 	}
-
 	vec3 col = Li * Fr * CosT;
 	gl_FragColor = vec4(col,1.0);
 }

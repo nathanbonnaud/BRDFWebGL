@@ -5,16 +5,14 @@ class skybox {
     constructor()
     {
         this.init = 0;
-
         this.shaderName = 'skybox';
         this.loaded = -1;
         this.shader = null;
 
         loadShaders(this);
         this.initBuffers();
-        // this.setShaders();
+        this.setShaders();
         this.initTexture();
-
     }
 
     initBuffers() {
@@ -59,44 +57,6 @@ class skybox {
         this.vertexBuffer.itemSize = 3;
         this.vertexBuffer.numItems = 24;
 
-        // Texture coords (array)
-        var texcoords = [
-            // positions
-            0.0, 0.0,
-            1.0, 0.0,
-            1.0, 1.0,
-            0.0, 1.0,
-
-            0.0, 0.0,
-            1.0, 0.0,
-            1.0, 1.0,
-            0.0, 1.0,
-
-            0.0, 0.0,
-            1.0, 0.0,
-            1.0, 1.0,
-            0.0, 1.0,
-
-            0.0, 0.0,
-            1.0, 0.0,
-            1.0, 1.0,
-            0.0, 1.0,
-
-            0.0, 0.0,
-            1.0, 0.0,
-            1.0, 1.0,
-            0.0, 1.0,
-
-            0.0, 0.0,
-            1.0, 0.0,
-            1.0, 1.0,
-            0.0, 1.0,
-        ];
-        this.texCoordBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.texCoordBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(texcoords), gl.STATIC_DRAW);
-        this.texCoordBuffer.itemSize = 2;
-        this.texCoordBuffer.numItems = 24;
 
         // Index buffer (array)
         var indices = [ 0,1,2,0,2,3,
@@ -112,31 +72,31 @@ class skybox {
         this.indexBuffer.numItems = indices.length;
 
     }
+
+    //==========================================================
     initTexture()
     {
 
-            var nameText = ["textures/skybox/right.jpg",
+      var nameText = ["textures/skybox/right.jpg",
                 "textures/skybox/left.jpg",
                 "textures/skybox/top.jpg",
                 "textures/skybox/bottom.jpg",
                 "textures/skybox/front.jpg",
                 "textures/skybox/back.jpg"];
 
-            let texture = gl.createTexture();
-            gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
-            var texImage = [new Image(),new Image(),new Image(),new Image(),new Image(),new Image()];
-
-            for(let i=0; i<6; i++){
-
-                texImage[i].src = nameText[i];
-                texImage[i].onload = function () {
-                    gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
-                    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texImage[i]);
-                }
-            }
-            gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      let texture = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
+      var texImage = [new Image(),new Image(),new Image(),new Image(),new Image(),new Image()];
+      for(let i=0; i<6; i++){
+          texImage[i].src = nameText[i];
+          texImage[i].onload = function () {
+              gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
+              gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texImage[i]);
+          }
+      }
+      gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     }
 
     // =====================================================
@@ -145,12 +105,14 @@ class skybox {
             gl.useProgram(this.shader);
 
             this.shader.vertexPositionAttribute = gl.getAttribLocation(this.shader, "aVertexPosition");
+            //OBJ1.shader.vertexPositionAttribute = gl.getAttribLocation(OBJ1.shader, "aVertexPosition");
             gl.enableVertexAttribArray(this.shader.vertexPositionAttribute);
+            //gl.enableVertexAttribArray(OBJ1.shader.vertexPositionAttribute);
 
-            this.shader.texCoordsAttribute = gl.getAttribLocation(this.shader, "texCoords");
-            gl.enableVertexAttribArray(this.shader.texCoordsAttribute);
             this.shader.samplerUniform = gl.getUniformLocation(this.shader, "uSkybox");
+            //OBJ1.shader.samplerUniform = gl.getUniformLocation(OBJ1.shader, "uSkybox");
             gl.uniform1i(this.shader.samplerUniform, 0);
+            //gl.uniform1i(OBJ1.shader.samplerUniform, 0);
 
             this.shader.pMatrixUniform = gl.getUniformLocation(this.shader, "uPMatrix");
             this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
@@ -160,11 +122,9 @@ class skybox {
             gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
             gl.vertexAttribPointer(this.shader.vertexPositionAttribute,
                 this.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.texCoordBuffer);
-            gl.vertexAttribPointer(this.shader.texCoordsAttribute,
-                this.texCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
-        }
+            //gl.vertexAttribPointer(OBJ1.shader.vertexPositionAttribute,
+            //    this.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
+          }
     }
 
 
@@ -187,15 +147,10 @@ class skybox {
     // =====================================================
     draw() {
         gl.clear(gl.COLOR_BUFFER_BIT);
-
         if(this.shader != null) {
-
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
-
             this.setShaders();
-
             this.setMatrixUniforms();
-
             gl.drawElements(gl.TRIANGLES, this.indexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
             //gl.drawArrays(gl.TRIANGLE_FAN, 0, this.vertexBuffer.numItems);
         }

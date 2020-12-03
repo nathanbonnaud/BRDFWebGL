@@ -8,11 +8,13 @@ uniform mat4 uPMatrix;
 //varying fait une interpolation sur la variable
 varying vec4 pos3D;
 varying vec3 N;
+varying vec3 TexCoords;
 
 void main(void) {
+
 	pos3D = uMVMatrix * vec4(aVertexPosition,1.0);
 	N = vec3(uRMatrix * vec4(aVertexNormal,1.0));
-	
+
 	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
 
 }

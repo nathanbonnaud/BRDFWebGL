@@ -105,14 +105,11 @@ class objmesh {
 			gl.drawElements(gl.TRIANGLES, this.mesh.indexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
 		}
 	}
-
 }
 
 // =====================================================
 // FONCTIONS GENERALES, INITIALISATIONS
 // =====================================================
-
-
 
 // =====================================================
 function initGL(canvas)
