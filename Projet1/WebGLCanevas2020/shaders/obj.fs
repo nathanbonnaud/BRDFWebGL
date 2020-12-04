@@ -1,4 +1,5 @@
 precision mediump float;
+uniform samplerCube uSkybox;
 
 uniform vec3 uLi;
 uniform vec3 uLpos;
@@ -15,7 +16,7 @@ uniform int uTorranceOn;
 
 varying vec4 pos3D;
 varying vec3 N;
-varying vec3 TexCoords;
+varying mat4 uRTranspose;
 
 const float M_PI = 3.145;
 
@@ -127,8 +128,32 @@ vec3 CookTorrance(vec3 Lpos, vec3 Objcolor, vec3 N, vec4 Pos3D)
 
 //=========================================================================================================
 
+vec4 intersectPlane(vec3 dir)
+{
+  return textureCube(uSkybox,dir.xzy);
+}
+
+//=========================================================================================================
+
+vec4 computeReflect(vec3 pos3D)
+{
+  vec3 Vo = normalize(-pos3D);
+  vec3 Vi = reflect(Vo,N);
+  Vi = vec3(uRTranspose * vec4(Vi,1.0));
+  return intersectPlane(Vi);
+}
+
+vec4 computeRefract(vec3 pos3D)
+{
+  vec3 Vo = normalize(-pos3D);
+  vec3 Vi = refract(Vo,N,1.0/uNi);
+  Vi = vec3(uRTranspose * vec4(Vi,1.0));
+  return intersectPlane(Vi);
+}
+
 void main(void)
 {
+
 	vec3 Fr;
 	vec3 Li = uLi*uLcolor;
 	float CosT = max(dot(normalize(N),normalize(uLpos-vec3(pos3D))),0.0);
@@ -145,5 +170,6 @@ void main(void)
 		Fr = CookTorrance(uLpos,uObjcolor,normalize(N),pos3D);
 	}
 	vec3 col = Li * Fr * CosT;
-	gl_FragColor = vec4(col,1.0);
+
+	gl_FragColor = computeRefract(pos3D.xyz);
 }

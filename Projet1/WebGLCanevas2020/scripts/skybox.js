@@ -116,7 +116,6 @@ class skybox {
 
             this.shader.pMatrixUniform = gl.getUniformLocation(this.shader, "uPMatrix");
             this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
-
             this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "uRMatrix");
 
             gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);

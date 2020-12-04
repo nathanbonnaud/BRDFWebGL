@@ -6,6 +6,8 @@ var gl;
 var mvMatrix = mat4.create();
 var pMatrix = mat4.create();
 var rotMatrix = mat4.create();
+var rotTranspose = mat4.create();
+
 var distCENTER;
 
 var transMatrixLum = mat4.create();
@@ -63,7 +65,11 @@ class objmesh {
 
 		this.shader.torrance = gl.getUniformLocation(this.shader, "uTorranceOn");
 
+		this.shader.samplerUniform = gl.getUniformLocation(this.shader, "uSkybox");
+		gl.uniform1i(this.shader.samplerUniform, 0);
+
 		this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "uRMatrix");
+		this.shader.rtMatrixUniform = gl.getUniformLocation(this.shader, "uRTMatrix");
 		this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
 		this.shader.pMatrixUniform = gl.getUniformLocation(this.shader, "uPMatrix");
 	}
@@ -73,10 +79,12 @@ class objmesh {
 		mat4.identity(mvMatrix);
 		mat4.translate(mvMatrix, distCENTER);
 		mat4.multiply(mvMatrix, rotMatrix);
+		mat4.transpose(rotMatrix,rotTranspose);
 
 		gl.uniformMatrix4fv(this.shader.rMatrixUniform, false, rotMatrix);
 		gl.uniformMatrix4fv(this.shader.mvMatrixUniform, false, mvMatrix);
 		gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, pMatrix);
+		gl.uniformMatrix4fv(this.shader.rtMatrixUniform, false, rotTranspose);
 
 		gl.uniform3fv(this.shader.lightPower, [intensityValue,intensityValue,intensityValue]);
 		gl.uniform3fv(this.shader.objColor, [0,1,0]);

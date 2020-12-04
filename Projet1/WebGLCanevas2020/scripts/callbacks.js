@@ -7,7 +7,7 @@ var mouseDown = false;
 var lastMouseX = null;
 var lastMouseY = null;
 var rotYCamera = 0;
-var rotXCamera = 0;
+var rotXCamera = -1;
 
 var transYLumiere = 0;
 var transXLumiere = 0;
@@ -89,7 +89,7 @@ function handleMouseMove(event) {
 
 			mat4.identity(rotMatrix);
 			mat4.rotate(rotMatrix, rotXCamera, [1, 0, 0]);
-			mat4.rotate(rotMatrix, rotYCamera, [0, 1, 0]);
+			mat4.rotate(rotMatrix, rotYCamera, [0, 0, 1]);
 		}else{
 			transYLumiere -= deltaY / 5;
 			transXLumiere += deltaX / 5;
