@@ -178,3 +178,21 @@ document.getElementById("selectedObj").innerHTML =
     "\t<label for=\"helmet\">Helmet</label><br>\n" +
     "\t<input type=\"radio\" id=\"teapot\" name=\"object\" value=\"Teapot\" onclick=\"selectedTeapot()\">\n" +
     "\t<label for=\"teapot\">Teapot</label>";
+
+var reflectOn = 1;
+
+function pushReflect(){
+    reflectOn = 1;
+
+    document.getElementById("reflectButton").style.backgroundColor = "yellow";
+    document.getElementById("refractButton").style.backgroundColor = "";
+}
+
+function pushRefract(){
+    reflectOn = 0;
+
+    document.getElementById("reflectButton").style.backgroundColor = "";
+    document.getElementById("refractButton").style.backgroundColor = "yellow";
+}
+
+document.getElementById("reflectButton").style.backgroundColor = "yellow";

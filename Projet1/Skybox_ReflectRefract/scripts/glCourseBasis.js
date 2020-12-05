@@ -72,6 +72,8 @@ class objmesh {
 		this.shader.rtMatrixUniform = gl.getUniformLocation(this.shader, "uRTMatrix");
 		this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
 		this.shader.pMatrixUniform = gl.getUniformLocation(this.shader, "uPMatrix");
+
+		this.shader.reflectOn = gl.getUniformLocation(this.shader, "uReflectOn");
 	}
 
 	// --------------------------------------------
@@ -101,6 +103,8 @@ class objmesh {
 		gl.uniform1f(this.shader.indBright, brightnessValue);
 
 		gl.uniform1i(this.shader.torrance, torranceOn);
+
+		gl.uniform1i(this.shader.reflectOn, reflectOn);
 	}
 
 

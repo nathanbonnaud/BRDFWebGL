@@ -79,3 +79,18 @@ canvas{
     top : 33vw;
     left: 1vw;
 }
+
+#reflectButton,#refractButton{
+    position: absolute;
+    top : 35vw;
+    border-width: 5px;
+    border-color: black;
+}
+
+#reflectButton{
+    left: 12vw;
+}
+
+#refractButton{
+    left: 18vw;
+}
