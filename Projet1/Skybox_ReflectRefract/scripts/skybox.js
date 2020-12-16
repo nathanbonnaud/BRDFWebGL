@@ -77,13 +77,6 @@ class skybox {
     initTexture()
     {
 
-      var nameText = ["textures/skybox/right.jpg",
-                "textures/skybox/left.jpg",
-                "textures/skybox/top.jpg",
-                "textures/skybox/bottom.jpg",
-                "textures/skybox/front.jpg",
-                "textures/skybox/back.jpg"];
-
       let texture = gl.createTexture();
       gl.bindTexture(gl.TEXTURE_CUBE_MAP, texture);
       var texImage = [new Image(),new Image(),new Image(),new Image(),new Image(),new Image()];

@@ -80,6 +80,12 @@ canvas{
     left: 1vw;
 }
 
+#selectedCubeMap{
+    position: absolute;
+    top : 33vw;
+    left: 12vw;
+}
+
 #reflectButton,#refractButton{
     position: absolute;
     top : 35vw;
@@ -88,9 +94,9 @@ canvas{
 }
 
 #reflectButton{
-    left: 12vw;
+    left: 24vw;
 }
 
 #refractButton{
-    left: 18vw;
+    left: 30vw;
 }
