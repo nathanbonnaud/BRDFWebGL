@@ -54,17 +54,12 @@ class objmesh {
 		gl.vertexAttribPointer(this.shader.nAttrib, this.mesh.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
 		this.shader.lightPower = gl.getUniformLocation(this.shader,"uLi");
-		this.shader.objColor = gl.getUniformLocation(this.shader,"uObjcolor");
 		this.shader.lightPos = gl.getUniformLocation(this.shader,"uLpos");
 		this.shader.lightColor = gl.getUniformLocation(this.shader,"uLcolor");
-		this.shader.kd = gl.getUniformLocation(this.shader, "uRhoD");
 
 		this.shader.roughness = gl.getUniformLocation(this.shader, "uSigma");
 		this.shader.indRefract = gl.getUniformLocation(this.shader, "uNi");
-		this.shader.indBright = gl.getUniformLocation(this.shader, "uN");
 		this.shader.x = gl.getUniformLocation(this.shader, "uX");
-
-		this.shader.torrance = gl.getUniformLocation(this.shader, "uTorranceOn");
 
 		this.shader.samplerUniform = gl.getUniformLocation(this.shader, "uSkybox");
 		gl.uniform1i(this.shader.samplerUniform, 0);
@@ -90,21 +85,14 @@ class objmesh {
 		gl.uniformMatrix4fv(this.shader.rtMatrixUniform, false, rotTranspose);
 
 		gl.uniform3fv(this.shader.lightPower, [intensityValue,intensityValue,intensityValue]);
-		gl.uniform3fv(this.shader.objColor, [0,1,0]);
 
 		gl.uniform3fv(this.shader.lightPos,
 			[vecTranslation[0],vecTranslation[1],vecTranslation[2]]);
-		gl.uniform3fv(this.shader.objColor, [redObj/255,greenObj/255,blueObj/255]);
 		gl.uniform3fv(this.shader.lightColor, [redLight/255,greenLight/255,blueLight/255]);
-
-		gl.uniform1f(this.shader.kd, kdValue);
 
 		gl.uniform1f(this.shader.roughness, mValue);
 		gl.uniform1f(this.shader.indRefract, nValue);
-		gl.uniform1f(this.shader.indBright, brightnessValue);
 		gl.uniform1f(this.shader.x, xValue);
-
-		gl.uniform1i(this.shader.torrance, torranceOn);
 
 		gl.uniform1i(this.shader.reflectOn, reflectOn);
 	}

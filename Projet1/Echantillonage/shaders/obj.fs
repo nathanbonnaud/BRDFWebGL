@@ -4,12 +4,9 @@ uniform samplerCube uSkybox;
 uniform vec3 uLi;
 uniform vec3 uLpos;
 uniform vec3 uLcolor;
-uniform vec3 uObjcolor;
 
 uniform float uX;
-uniform float uRhoD;
 uniform float uKs;
-uniform float uN;
 uniform float uSigma;
 uniform float uNi;
 
