@@ -6,6 +6,7 @@ uniform vec3 uLpos;
 uniform vec3 uLcolor;
 uniform vec3 uObjcolor;
 
+uniform float uX;
 uniform float uRhoD;
 uniform float uKs;
 uniform float uN;
@@ -82,8 +83,8 @@ float D(vec3 N, vec3 M, float Sigma)
 	float TanT2 = SinT2/CosT2;
 	float Sigma2 = Sigma*Sigma;
 
-    float e = exp(-TanT2/(2.0*Sigma2));
-    float bot = M_PI*Sigma2*CosT4;
+  float e = exp(-TanT2/(2.0*Sigma2));
+  float bot = M_PI*Sigma2*CosT4;
 	float D = e/bot;
 
     return D;

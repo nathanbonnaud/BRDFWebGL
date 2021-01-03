@@ -135,6 +135,18 @@ nSlider.oninput = function (){
     nSpan.innerHTML = this.value/100;
 }
 
+/* slider "Kd" gère la valeur de Kd */
+var xSpan = document.getElementById("X");
+var xSlider = document.getElementById("Xslider");
+
+xSlider.value = 1;
+xValue = xSlider.value;
+
+xSlider.oninput = function (){
+    xValue = this.value;
+    xSpan.innerHTML = this.value;
+}
+
 //couleur de la lumière
 var colorLight = document.getElementById("color2");
 colorLight.hidden =true;
