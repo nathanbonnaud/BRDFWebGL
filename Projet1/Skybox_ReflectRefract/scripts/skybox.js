@@ -1,7 +1,5 @@
 class skybox {
 
-
-
     constructor()
     {
         this.init = 0;
