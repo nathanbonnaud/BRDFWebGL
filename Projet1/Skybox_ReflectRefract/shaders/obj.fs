@@ -3,12 +3,14 @@ uniform samplerCube uSkybox;
 
 uniform float uNi;
 uniform int uReflectOn;
+
 varying vec4 pos3D;
 varying vec3 N;
 varying mat4 uRTranspose;
 
 //=========================================================================================================
 
+// calcul la couleur de la cubemap après une réfflexion sur l'objet
 vec4 computeReflect(vec3 pos3D)
 {
   vec3 Vo = normalize(pos3D);
@@ -17,6 +19,9 @@ vec4 computeReflect(vec3 pos3D)
   return textureCube(uSkybox,Vi.xzy);
 }
 
+//=========================================================================================================
+
+// calcul la couleur de la cubemap après une réfraction sur l'objet
 vec4 computeRefract(vec3 pos3D)
 {
   vec3 Vo = normalize(pos3D);
@@ -25,10 +30,9 @@ vec4 computeRefract(vec3 pos3D)
   return textureCube(uSkybox,Vi.xzy);
 }
 
+//=========================================================================================================
+
 void main(void)
 {
-    if(uReflectOn == 1)
-        gl_FragColor = computeReflect(pos3D.xyz);
-    else
-	    gl_FragColor = computeRefract(pos3D.xyz);
+  gl_FragColor = (uReflectOn == 1) ? computeReflect(pos3D.xyz) : computeRefract(pos3D.xyz);
 }

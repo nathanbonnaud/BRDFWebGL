@@ -14,7 +14,6 @@ uniform float uSigma;
 uniform float uNi;
 
 uniform int uTorranceOn;
-
 uniform int uReflectOn;
 
 varying vec4 pos3D;
@@ -90,7 +89,6 @@ float D(vec3 N, vec3 M, float Sigma)
     return D;
 }
 
-
 //========================================================================================================
 
 // BRDF de Cook-Torrance
@@ -115,13 +113,7 @@ vec3 CookTorrance(vec3 Lpos, vec3 Objcolor, vec3 N, vec4 Pos3D)
 
 //=========================================================================================================
 
-vec4 intersectPlane(vec3 dir)
-{
-  return textureCube(uSkybox,dir.xzy);
-}
-
-//=========================================================================================================
-
+// reflection de la cubemap
 vec4 computeReflect(vec3 pos3D)
 {
   vec3 Vo = normalize(pos3D);
@@ -130,6 +122,9 @@ vec4 computeReflect(vec3 pos3D)
   return textureCube(uSkybox,Vi.xzy);
 }
 
+//=========================================================================================================
+
+//refraction de la cubemap
 vec4 computeRefract(vec3 pos3D)
 {
   vec3 Vo = normalize(pos3D);
@@ -137,6 +132,8 @@ vec4 computeRefract(vec3 pos3D)
   Vi = vec3(uRTranspose * vec4(Vi,1.0));
   return textureCube(uSkybox,Vi.xzy);
 }
+
+//==========================================================================================================
 
 void main(void)
 {
@@ -151,6 +148,4 @@ void main(void)
 	vec3 Fr = CookTorrance(uLpos,objColor.xyz,normalize(N),pos3D);
 
 	gl_FragColor = vec4(Li * Fr * CosT,1.0);
-
-
 }
