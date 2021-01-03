@@ -12,10 +12,6 @@ var rotXCamera = -1;
 var transYLumiere = 0;
 var transXLumiere = 0;
 
-var redObj =0;
-var greenObj =0;
-var blueObj =0;
-
 var redLight =0;
 var greenLight =0;
 var blueLight =0;
@@ -38,9 +34,6 @@ window.requestAnimFrame = (function()
 function tick() {
 	requestAnimFrame(tick);
 	drawScene();
-
-	updateColorObj();
-	updateColorLight();
 }
 
 // =====================================================
@@ -82,26 +75,12 @@ function handleMouseMove(event) {
 	if(event.shiftKey) {
 		distCENTER[2] += deltaY/100.0;
 	} else {
+		rotYCamera += degToRad(deltaX / 5);
+		rotXCamera += degToRad(deltaY / 5);
 
-		if(controleCamera){
-			rotYCamera += degToRad(deltaX / 5);
-			rotXCamera += degToRad(deltaY / 5);
-
-			mat4.identity(rotMatrix);
-			mat4.rotate(rotMatrix, rotXCamera, [1, 0, 0]);
-			mat4.rotate(rotMatrix, rotYCamera, [0, 0, 1]);
-		}else{
-			transYLumiere -= deltaY / 5;
-			transXLumiere += deltaX / 5;
-
-			mat4.identity(transMatrixLum);
-
-			vecTranslation = [0, 0, 0, 1];
-			vecTranslation[0] = transXLumiere;
-			vecTranslation[1] = transYLumiere;
-
-			vecTranslation = mat4.multiplyVec4(transMatrixLum, vecTranslation);
-		}
+		mat4.identity(rotMatrix);
+		mat4.rotate(rotMatrix, rotXCamera, [1, 0, 0]);
+		mat4.rotate(rotMatrix, rotYCamera, [0, 0, 1]);
 	}
 
 	lastMouseX = newX

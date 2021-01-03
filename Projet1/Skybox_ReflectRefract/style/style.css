@@ -5,50 +5,6 @@ canvas{
     display: inline-block;
 }
 
-#deplacementCamera,#deplacementLumiere{
-    background-color: whitesmoke;
-    border-color: black;
-    border-width: 2px;
-    border-style: solid;
-    padding: 6px;
-    box-shadow: 3px 4px;
-    position: absolute;
-
-}
-
-#phong, #cookTorance{
-    background-color: whitesmoke;
-    border-color: black;
-    border-width: 2px;
-    border-style: solid;
-    padding: 6px;
-    box-shadow: 3px 4px;
-    position: absolute;
-    left: 30vw;
-}
-
-#deplacementCamera:hover, #deplacementLumiere:hover,
-#phong:hover, #cookTorance:hover{
-    cursor: pointer;
-}
-
-#deplacementLumiere{
-    left : 5vw;
-}
-
-#cookTorance{
-    left: 34vw;
-}
-
-#deplacementCamera, #phong{
-    background-color: yellow;
-    box-shadow: 1px 2px;
-}
-
-.propertyCT{
-    display: none;
-}
-
 #Souris{
     position: absolute;
     top : 35vw;

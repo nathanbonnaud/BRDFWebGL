@@ -53,17 +53,8 @@ class objmesh {
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.normalBuffer);
 		gl.vertexAttribPointer(this.shader.nAttrib, this.mesh.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-		this.shader.lightPower = gl.getUniformLocation(this.shader,"uLi");
-		this.shader.objColor = gl.getUniformLocation(this.shader,"uObjcolor");
-		this.shader.lightPos = gl.getUniformLocation(this.shader,"uLpos");
-		this.shader.lightColor = gl.getUniformLocation(this.shader,"uLcolor");
-		this.shader.kd = gl.getUniformLocation(this.shader, "uRhoD");
-
-		this.shader.roughness = gl.getUniformLocation(this.shader, "uSigma");
 		this.shader.indRefract = gl.getUniformLocation(this.shader, "uNi");
 		this.shader.indBright = gl.getUniformLocation(this.shader, "uN");
-
-		this.shader.torrance = gl.getUniformLocation(this.shader, "uTorranceOn");
 
 		this.shader.samplerUniform = gl.getUniformLocation(this.shader, "uSkybox");
 		gl.uniform1i(this.shader.samplerUniform, 0);
@@ -88,22 +79,7 @@ class objmesh {
 		gl.uniformMatrix4fv(this.shader.pMatrixUniform, false, pMatrix);
 		gl.uniformMatrix4fv(this.shader.rtMatrixUniform, false, rotTranspose);
 
-		gl.uniform3fv(this.shader.lightPower, [intensityValue,intensityValue,intensityValue]);
-		gl.uniform3fv(this.shader.objColor, [0,1,0]);
-
-		gl.uniform3fv(this.shader.lightPos,
-			[vecTranslation[0],vecTranslation[1],vecTranslation[2]]);
-		gl.uniform3fv(this.shader.objColor, [redObj/255,greenObj/255,blueObj/255]);
-		gl.uniform3fv(this.shader.lightColor, [redLight/255,greenLight/255,blueLight/255]);
-
-		gl.uniform1f(this.shader.kd, kdValue);
-
-		gl.uniform1f(this.shader.roughness, mValue);
 		gl.uniform1f(this.shader.indRefract, nValue);
-		gl.uniform1f(this.shader.indBright, brightnessValue);
-
-		gl.uniform1i(this.shader.torrance, torranceOn);
-
 		gl.uniform1i(this.shader.reflectOn, reflectOn);
 	}
 
@@ -247,15 +223,10 @@ function webGLStart() {
 	initGL(canvas);
 	mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
 
-	if(controleCamera) {
-		mat4.identity(rotMatrix);
-		mat4.rotate(rotMatrix, rotXCamera, [1, 0, 0]);
-		mat4.rotate(rotMatrix, rotYCamera, [0, 0, 1]);
-	}else {
-		mat4.identity(rotMatrixLum);
-		mat4.rotate(rotMatrixLum, rotXLumiere, [1, 0, 0]);
-		mat4.rotate(rotMatrixLum, rotYLumiere, [0, 0, 1]);
-	}
+	mat4.identity(rotMatrix);
+	mat4.rotate(rotMatrix, rotXCamera, [1, 0, 0]);
+	mat4.rotate(rotMatrix, rotYCamera, [0, 0, 1]);
+
 
 	distCENTER = vec3.create([0,-0.2,-3]);
 	SKYBOX = new skybox();
