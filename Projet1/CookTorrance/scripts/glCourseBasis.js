@@ -16,7 +16,6 @@ var vecTranslation = [0,0,0,1];
 // =====================================================
 
 var OBJ1 = null;
-var SKYBOX = null;
 
 var objectName = "bunny";
 
@@ -65,9 +64,6 @@ class objmesh {
 
 		this.shader.torrance = gl.getUniformLocation(this.shader, "uTorranceOn");
 
-		this.shader.samplerUniform = gl.getUniformLocation(this.shader, "uSkybox");
-		gl.uniform1i(this.shader.samplerUniform, 0);
-
 		this.shader.rMatrixUniform = gl.getUniformLocation(this.shader, "uRMatrix");
 		this.shader.rtMatrixUniform = gl.getUniformLocation(this.shader, "uRTMatrix");
 		this.shader.mvMatrixUniform = gl.getUniformLocation(this.shader, "uMVMatrix");
@@ -103,8 +99,6 @@ class objmesh {
 		gl.uniform1f(this.shader.indBright, brightnessValue);
 
 		gl.uniform1i(this.shader.torrance, torranceOn);
-
-		gl.uniform1i(this.shader.reflectOn, reflectOn);
 	}
 
 
@@ -258,7 +252,6 @@ function webGLStart() {
 	}
 
 	distCENTER = vec3.create([0,-0.2,-3]);
-	SKYBOX = new skybox();
 	OBJ1 = new objmesh('objects/'+objectName+'.obj');
 
 	tick();
@@ -267,7 +260,6 @@ function webGLStart() {
 // =====================================================
 function drawScene() {
 	gl.clear(gl.COLOR_BUFFER_BIT);
-	SKYBOX.draw();
 	OBJ1.draw();
 
 }

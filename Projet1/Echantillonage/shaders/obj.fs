@@ -35,22 +35,6 @@ vec3 Lambert(vec3 Lpos, vec3 Objcolor, vec3 N, vec4 Pos3D, float RhoD)
     return Kd ;
 }
 
-// ======================================================================================================
-
-// Modèle Blinn-Phong modifié
-float BlinnPhongModify(vec3 Lpos, vec3 N, vec4 Pos3D , float n)
-{
-	float Ks = (1.0-uRhoD);
-
-	vec3 L = vec3(vec3(Pos3D)-Lpos);
-	vec3 CamDir = -vec3(Pos3D);
-    vec3 Lreflect = reflect(normalize(L), N);
-    float cosA = pow(max(dot(Lreflect, normalize(CamDir)), 0.0), n);
-	float Is = Ks * ((n+8.0)/(8.0*M_PI)) * cosA;
-
-    return Is;
-}
-
 //============================================================================================================
 
 //Fresnel
@@ -155,26 +139,17 @@ vec4 computeRefract(vec3 pos3D)
 
 void main(void)
 {
+  vec4 objColor;
+  if(uReflectOn == 1)
+    objColor = computeReflect(pos3D.xyz);
+  else
+    objColor = computeRefract(pos3D.xyz);
 
-	vec3 Fr;
 	vec3 Li = uLi*uLcolor;
 	float CosT = max(dot(normalize(N),normalize(uLpos-vec3(pos3D))),0.0);
+	vec3 Fr = CookTorrance(uLpos,objColor.xyz,normalize(N),pos3D);
 
-    if(uTorranceOn == 0)
-	{
-		// Modèle Blinn-Phong modifié
-		vec3 Kd = Lambert(uLpos,uObjcolor,normalize(N),pos3D, uRhoD);
-		Fr = Kd/M_PI + BlinnPhongModify(uLpos,normalize(N),pos3D,uN);
-	}
-	else
-	{
-		// Modèle Cook-Torrance
-		Fr = CookTorrance(uLpos,uObjcolor,normalize(N),pos3D);
-	}
-	vec3 col = Li * Fr * CosT;
+	gl_FragColor = vec4(Li * Fr * CosT,1.0);
 
-    if(uReflectOn == 1)
-        gl_FragColor = computeReflect(pos3D.xyz);
-    else
-	    gl_FragColor = computeRefract(pos3D.xyz);
+
 }
