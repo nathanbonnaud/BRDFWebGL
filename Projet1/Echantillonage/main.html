@@ -26,9 +26,6 @@
 <body onload="webGLStart();">
 <canvas id="WebGL-test" style="border:none;" width="800" height="600"></canvas>
 
-<span id="phong">Phong</span>
-<span id="cookTorance">Cook-Torrance</span>
-
 <div id="parametres">
 
 	<h2>Parameters</h2>
@@ -40,12 +37,6 @@
 		<p> Intensity : <span id="intensity"></span></p>
 		<input type="range" min="0" max="100" value="30" class="slider" id="intensitySlider">
 
-		<p id="pKd"> Kd : <span id="kd"></span></p>
-		<input type="range" min="0" max="100" value="50" id="kdSlider">
-
-		<p id="pBrightness"> n : <span id="brightness"></span></p>
-		<input type="range" min="1" max="20" value="100" id="brightnessSlider">
-
 		<p class="propertyCT"> &sigma; : <span id="roughness" ></span></p>
 		<input type="range" min="1" max="100" value="50" id="roughnessSlider" class="propertyCT">
 
@@ -56,11 +47,6 @@
 		<input type="range" min="0" max="500" value="1" id="Xslider">
 	</div>
 
-	<div id="object">
-		<h3> Object :</h3>
-		<p> Color: <span id="colorObj"></span></p>
-		<div class="form-item"><input type="text" id="color" name="color" value="#123456" /></div><div id="picker"></div>
-	</div>
 </div>
 
 <div id= "selectedObj"></div>
